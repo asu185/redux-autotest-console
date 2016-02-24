@@ -1,0 +1,39 @@
+.glyphicon {
+  margin-right: 5px;
+}
+
+.table {
+  border: hidden;
+}
+
+.table-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.table .table-title ~ tr>td {
+  line-height: 34px;
+}
+
+.Select {
+  width: 90%;
+}
+
+@-webkit-keyframes rotating {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 1s linear infinite;
+  -moz-animation: rotating 1s linear infinite;
+}
+
+a {
+  margin: 0 10px;
+}

@@ -1,7 +1,7 @@
 module.exports = {
   devtool: 'source-map',
   entry: {
-    main: './public/main.js'
+    main: './public/src/main.js'
   },
   output: {
     path: __dirname + '/public/',
@@ -13,7 +13,7 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel',
       query: {
-        presets:['react']
+        presets:['es2015', 'react']
       }
     }]
   }
