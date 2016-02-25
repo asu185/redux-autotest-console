@@ -12,6 +12,7 @@ class DeviceList extends Component {
     if (this.props.devices.length === 0) {
       return <tr>
         <td> No devices found. </td>
+        <td></td>
       </tr>
     } else {    
       var devices = this.props.devices;

@@ -1,9 +1,14 @@
 import React from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
-import { changeDeviceFeature } from '../actions/index';
+import { onChangeDeviceFeature } from '../actions/index';
 
-const Device = ({ device, featureOptions, onChangeDeviceFeature }) => {
+const Device = ({ 
+  device, 
+  featureOptions, 
+  onChangeDeviceFeature 
+}) => {
+
   return (
     <tr>
       <td>{device.name}</td>
@@ -25,13 +30,12 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch, ownProps) {  
   return {
     onChangeDeviceFeature: (feature) => {
-      dispatch(changeDeviceFeature(ownProps.device.name, feature))
+      dispatch(onChangeDeviceFeature(ownProps.device.name, feature));
     }
   }
 }
 
-// export default Device;
 export default connect(mapStateToProps, mapDispatchToProps)(Device);
