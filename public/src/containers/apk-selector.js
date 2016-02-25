@@ -22,7 +22,7 @@ const ApkSelector = (props) => {
       <span>Select the apk: </span>
       <select onChange={props.onChangeApk}>
         {props.apkSelector.apks.map(function(apk) {
-          return <option value={apk}>{apk}</option>
+          return <option key={apk} value={apk}>{apk}</option>
         })}
       </select>
       <a className={'glyphicon glyphicon-repeat' + toggleRotating(props.apkSelector.isLoadingApkList)}

@@ -10,6 +10,8 @@ export const GET_APK_LIST = 'GET_APK_LIST';
 export const GET_APK_LIST_BEFORE = 'GET_APK_LIST_BEFORE';
 export const RESIGN_APK = 'RESIGN_APK';
 export const RESIGN_APK_BEFORE = 'RESIGN_APK_BEFORE';
+export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
+export const RUN_FEATURE = 'RUN_FEATURE';
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -24,7 +26,7 @@ export function getDevices() {
 export function getFeatureOptions() {
   const url = ROOT_URL + 'features';
   const request = axios.get(url);
-
+  
   return {
     type: GET_FEATURE_OPTIONS,
     payload: request
@@ -73,6 +75,23 @@ export function resignApk(selectedApk) {
 
   return {
     type: RESIGN_APK,
+    payload: request
+  }
+}
+
+export function onChangeInstallFlag() {
+  return {
+    type: CHANGE_INSTALL_FLAG
+  }
+}
+
+export function runFeatures(device, selectedApk, installFlag) {
+  const url = ROOT_URL + 'run';
+  const data = { device, selectedApk, installFlag };
+  const request = axios.post(url, data);
+
+  return {
+    type: RUN_FEATURE,
     payload: request
   }
 }
