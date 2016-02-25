@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { onChangeInstallFlag } from '../actions/index';
 
 const InstallCheckbox = ({ installFlag, onChangeInstallFlag }) => {
+  // console.log('Render install-checkbox');
   return (
     <div>
       <span>Install/Reinstall apk: </span>
@@ -16,7 +17,7 @@ const InstallCheckbox = ({ installFlag, onChangeInstallFlag }) => {
 
 function mapStateToProps(state) {
   return {
-    installFlag: InstallCheckboxReducer
+    installFlag: state.installCheckbox
   }
 }
 
@@ -28,4 +29,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(InstallCheckbox);
+export default connect(mapStateToProps, mapDispatchToProps)(InstallCheckbox);

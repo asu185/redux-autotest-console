@@ -27,6 +27,7 @@ class DeviceList extends Component {
   }
 
   render() {
+    console.log('Render device-list');
     return (
       <div>
         <table className="table">

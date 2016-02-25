@@ -17,6 +17,7 @@ const toggleRotating = (isLoading) => {
 }
 
 const ApkSelector = (props) => {
+  // console.log('Render apk-selector');
   return (
     <div>
       <span>Select the apk: </span>

@@ -8,7 +8,7 @@ const Device = ({
   featureOptions, 
   onChangeDeviceFeature 
 }) => {
-
+  // console.log('Render device');
   return (
     <tr>
       <td>{device.name}</td>

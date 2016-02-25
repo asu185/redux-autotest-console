@@ -1,6 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { getFeatureOptions, getDevices, runFeatures } from '../actions/index';
+import { 
+  getFeatureOptions, 
+  getDevices, 
+  runFeatures, 
+  setDeviceRunning 
+} from '../actions/index';
 
 const ApiButtons = ({ 
   devices,
@@ -10,6 +15,7 @@ const ApiButtons = ({
   getDevices,
   runFeatures 
 }) => {  
+  // console.log('Render api-buttons');
   return (
     <div>
       <div className="btn-group pull-right" role="group" aria-label="...">
@@ -24,8 +30,7 @@ const ApiButtons = ({
         <a className="btn btn-default" onClick={() => {
           devices.map(device => 
             runFeatures(device, selectedApk, installFlag)
-          )}
-        }>
+          )}}>
           <span className="glyphicon glyphicon-play"></span>
           Run
         </a>
@@ -51,6 +56,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(getDevices());
     },
     runFeatures: (device, selectedApk, installFlag) => {
+      dispatch(setDeviceRunning(device));
       dispatch(runFeatures(device, selectedApk, installFlag));
     }
   }

@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Device = mongoose.model('Device');
 var fs = require('fs');
 var autotest_dir = __dirname + '/../../omlet-autotest/';
-var config_dir = '../../config/';
 
 exports.features = function(req, res) {
   fs.readFile('./config/features.txt', 'utf8', function (err, result) {
@@ -65,7 +64,7 @@ exports.run = function(req, res) {
   var device = req.body.device;
   var apk = req.body.selectedApk;
   var install_flag = req.body.installFlag;
-  var cmd = 'cp ' + config_dir;
+  var cmd = 'cp ../config/';
   var options = {cwd: autotest_dir};
   var report_basic_dir = options.cwd + 'reports/';
 
@@ -99,16 +98,17 @@ exports.run = function(req, res) {
   }
 
   // console.log('feature: ' + feature);
-  if (feature.length === 0) {  /* if the feature is either 'undefined' nor empty */        
+  if (feature.length === 0) {  /* if the feature is either 'undefined' nor empty */          
+    console.log(id + ' with empty feature.');
     setDeviceStatus(device, false);
-    res.end('empty feature');
+    res.end(id + ' with empty feature.');
   } else if (feature === 'all') {
     setDeviceStatus(device, true, function() {
       feature = '';
       cmd += feature + ' --format html --out ' + report_dir + id + '_report.html ' + 'ADB_DEVICE_ARG=' + id + ' SCREENSHOT_PATH=' + report_dir;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
-        res.end('done');
+        res.end(id);
       });
     });    
   } else {
@@ -116,9 +116,10 @@ exports.run = function(req, res) {
     cmd += feature + ' --format html --out ' + report_dir + id + '_report.html ' + 'ADB_DEVICE_ARG=' + id + ' SCREENSHOT_PATH=' + report_dir;
     runCmd(cmd, options, function(result) {
       setDeviceStatus(device, false);
-      res.end('done');
+      res.end(id);
     });
   }
+
 
 };
 
@@ -145,6 +146,7 @@ function runCmd(cmd, options, callback) {
       callback(stdout);
     }
     if (stderr) {
+      console.log('stderr:', stderr);
       callback(stderr);
     }
   });
