@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = 'http://localhost:8888/api/';;
+const ROOT_URL = 'http://localhost:8888/api/';
 
 export const GET_DEVICES = 'GET_DEVICES';
 export const GET_FEATURE_OPTIONS = 'GET_FEATURE_OPTIONS';
@@ -17,7 +17,7 @@ export const SET_DEVICE_RUNNING = 'SET_DEVICE_RUNNING';
 export function getDevices() {
   const url = ROOT_URL + 'devices';
   const request = axios.get(url);
-
+  
   return {
     type: GET_DEVICES,
     payload: request

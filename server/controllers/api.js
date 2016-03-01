@@ -119,8 +119,6 @@ exports.run = function(req, res) {
       res.end(id);
     });
   }
-
-
 };
 
 exports.resign = function(req, res) {
@@ -131,6 +129,19 @@ exports.resign = function(req, res) {
   runCmd(cmd, options, function(result) {
     // console.log(result);
     res.jsonp(result);
+  });
+};
+
+exports.uploadApk = function(req, res) {  
+  var file = req.file;
+  var tmp_path = file.path;
+  var target_path = file.destination + file.originalname;
+
+  console.log('file:', file);
+
+  fs.rename(tmp_path, target_path, function(err) {
+    if (err) throw err;    
+    res.end('Uploaded.');
   });
 };
 

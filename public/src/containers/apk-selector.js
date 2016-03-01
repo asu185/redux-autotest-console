@@ -5,8 +5,9 @@ import {
   getApkList, 
   getApkListBefore, 
   resignApk, 
-  resignApkBefore 
+  resignApkBefore  
 } from '../actions/index';
+import FileUploadProgress  from 'react-fileupload-progress';
 
 const toggleRotating = (isLoading) => {
   if (isLoading) {
@@ -16,10 +17,42 @@ const toggleRotating = (isLoading) => {
   }
 }
 
+const formGetter = () => {
+  return new FormData(document.getElementById('uploadForm'));
+}
+
+const customFormRenderer = (onSubmit) => {
+  return (
+    <form id="uploadForm"
+      encType="multipart/form-data"
+      action="/api/upload-apk"
+      method="post" >
+      <div className="fileinput fileinput-new" data-provides="fileinput">          
+        <span className="btn btn-default btn-file">
+          <span className="fileinput-new">Select file</span>
+          <span className="fileinput-exists fileinput-filename">Select file</span>            
+          <input type="file" name="file" />
+        </span>
+        <button className="btn btn-primary" type="button" onClick={onSubmit} >
+          Upload
+        </button>
+      </div>
+    </form>
+  )
+}
+
 const ApkSelector = (props) => {
   // console.log('Render apk-selector');
-  return (
-    <div>
+  return (    
+    <div>    
+      <FileUploadProgress key='ex1' url='http://localhost:8888/api/upload-apk'
+        onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
+        onLoad={ (e, request) => {console.log('load', e, request);}}
+        onError={ (e, request) => {console.log('error', e, request);}}
+        onAbort={ (e, request) => {console.log('abort', e, request);}}
+        formGetter={formGetter}
+        formRenderer={customFormRenderer} />
+
       <span>Select the apk: </span>
       <select onChange={props.onChangeApk}>
         {props.apkSelector.apks.map(function(apk) {
@@ -31,7 +64,7 @@ const ApkSelector = (props) => {
       </a>
       <a className={'glyphicon glyphicon-pencil' + toggleRotating(props.apkSelector.isResigning)}
         onClick={() => props.resignApk(props.apkSelector.selectedApk)}>
-      </a>
+      </a>      
     </div>
   )
 }

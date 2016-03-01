@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 require('./models/device');
 var api = require('./controllers/api');
+var multer  = require('multer');
+var upload = multer({ dest: 'omlet-autotest/' });
 var app = express();
 
 //CORS middleware
@@ -24,6 +26,7 @@ app.get('/api/apk-list', api.apkList);
 app.get('/api/devices', api.devices);
 app.post('/api/run', api.run);
 app.post('/api/resign', api.resign);
+app.post('/api/upload-apk', upload.single('file'), api.uploadApk);
 
 var url = 'mongodb://localhost/redux-autotest';
 mongoose.connect(url, function(err) {
