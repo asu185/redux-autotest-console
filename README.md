@@ -10,11 +10,10 @@ $bower install
 $npm start
 
 For Deployment
-First, change the URL setting & index.html
+First, change the URL (server/server.js, public/src/actions/index.js, public/index.html)
 Then
 $sudo npm install -g forever bower
 $npm install
 $bower install
-$webpack
-$forever server/server.js
+$npm run deploy
 ```

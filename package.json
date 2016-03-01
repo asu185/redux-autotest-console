@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-server": "webpack-dev-server --hot --progress --colors --inline",
     "nodemon-server": "nodemon server/server.js",
-    "start": "npm run webpack-server & npm run nodemon-server"    
+    "start": "npm run webpack-server & npm run nodemon-server",
+    "deploy": "webpack; forever server/server.js"
   },
   "author": "",
   "license": "ISC",

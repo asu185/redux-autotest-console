@@ -137,7 +137,7 @@ exports.resign = function(req, res) {
 function runCmd(cmd, options, callback) {
   var child_process = require('child_process');
   // console.log(options);
-  // console.log(cmd);
+  console.log('Run cmd:', cmd);
   child_process.exec(cmd, options, function(err, stdout, stderr) {
     if (err) {
       return console.log(err);
