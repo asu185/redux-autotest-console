@@ -4,7 +4,8 @@ import {
   getFeatureOptions, 
   getDevices, 
   runFeatures, 
-  setDeviceRunning 
+  setDeviceRunning,
+  onEmptyDeviceFeature
 } from '../actions/index';
 
 const ApiButtons = ({ 
@@ -56,8 +57,14 @@ function mapDispatchToProps(dispatch) {
       dispatch(getDevices());
     },
     runFeatures: (device, selectedApk, installFlag) => {
-      dispatch(setDeviceRunning(device, true));
-      dispatch(runFeatures(device, selectedApk, installFlag));
+      if (!device.isRunning) { // Only run unlocked device
+        if (device.feature) { // Run the feature
+          dispatch(setDeviceRunning(device, true));
+          dispatch(runFeatures(device, selectedApk, installFlag));
+        } else { // Empty the device feature in database
+          dispatch(onEmptyDeviceFeature(device));
+        }
+      }
     }
   }
 }

@@ -27,6 +27,7 @@ app.get('/api/devices', api.devices);
 app.post('/api/run', api.run);
 app.post('/api/resign', api.resign);
 app.post('/api/upload-apk', upload.single('file'), api.uploadApk);
+app.post('/api/empty-device-feature', api.emptyDeviceFeature);
 
 var url = 'mongodb://localhost/redux-autotest';
 mongoose.connect(url, function(err) {

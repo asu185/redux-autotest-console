@@ -68,9 +68,9 @@ exports.run = function(req, res) {
   var options = {cwd: autotest_dir};
   var report_basic_dir = options.cwd + 'reports/';
 
-  var id = device.name;
+  var name = device.name;
   var feature = device.feature;
-  var report_dir = report_basic_dir + id + '/';
+  var report_dir = report_basic_dir + name + '/';
 
   if (install_flag) {
     cmd += 'install.rb features/support/app_installation_hooks.rb;'
@@ -98,26 +98,22 @@ exports.run = function(req, res) {
   }
 
   // console.log('feature: ' + feature);
-  if (feature.length === 0) {  /* if the feature is either 'undefined' nor empty */          
-    console.log(id + ' with empty feature.');
-    setDeviceStatus(device, false);
-    res.end(id + ' with empty feature.');
-  } else if (feature === 'all') {
+  if (feature === 'all') {
     setDeviceStatus(device, true, function() {
-      feature = '';
-      cmd += feature + ' --format html --out ' + report_dir + id + '_report.html ' + 'ADB_DEVICE_ARG=' + id + ' SCREENSHOT_PATH=' + report_dir;
+      cmd += ' --format html --out ' + report_dir + name + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_dir;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
-        res.end(id);
+        res.end(name);
       });
-    });    
-  } else {
-    setDeviceStatus(device, true);
-    cmd += feature + ' --format html --out ' + report_dir + id + '_report.html ' + 'ADB_DEVICE_ARG=' + id + ' SCREENSHOT_PATH=' + report_dir;
-    runCmd(cmd, options, function(result) {
-      setDeviceStatus(device, false);
-      res.end(id);
     });
+  } else {
+    setDeviceStatus(device, true, function() {
+      cmd += feature + ' --format html --out ' + report_dir + name + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_dir;
+      runCmd(cmd, options, function(result) {
+        setDeviceStatus(device, false);
+        res.end(name);
+      });  
+    });    
   }
 };
 
@@ -143,6 +139,13 @@ exports.uploadApk = function(req, res) {
     if (err) throw err;    
     res.end('Uploaded.');
   });
+};
+
+exports.emptyDeviceFeature = function(req, res) {
+  var device = req.body.device;
+  var name = device.name;
+  setDeviceStatus(device, false);
+  res.end(name);
 };
 
 function runCmd(cmd, options, callback) {

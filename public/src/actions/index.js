@@ -13,6 +13,7 @@ export const RESIGN_APK_BEFORE = 'RESIGN_APK_BEFORE';
 export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
 export const RUN_FEATURE = 'RUN_FEATURE';
 export const SET_DEVICE_RUNNING = 'SET_DEVICE_RUNNING';
+export const EMPTY_DEVICE_FEATURE = 'EMPTY_DEVICE_FEATURE';
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -86,7 +87,7 @@ export function onChangeInstallFlag() {
   }
 }
 
-export function runFeatures(device, selectedApk, installFlag) {
+export function runFeatures(device, selectedApk, installFlag) {  
   const url = ROOT_URL + 'run';
   const data = { device, selectedApk, installFlag };
   const request = axios.post(url, data);
@@ -101,5 +102,15 @@ export function setDeviceRunning(device, status) {
   return {
     type: SET_DEVICE_RUNNING,
     payload: { device, status }
+  }
+}
+
+export function onEmptyDeviceFeature(device) {
+  const url = ROOT_URL + 'empty-device-feature';
+  const request = axios.post(url, { device });
+
+  return {
+    type: EMPTY_DEVICE_FEATURE,
+    payload: request
   }
 }
