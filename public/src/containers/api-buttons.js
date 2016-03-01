@@ -19,14 +19,14 @@ const ApiButtons = ({
   return (
     <div>
       <div className="btn-group pull-right" role="group" aria-label="...">
+        <a className="btn btn-default" onClick={getDevices}>
+          <span className="glyphicon glyphicon-repeat"></span>
+          SyncDevices
+        </a>
         <a className="btn btn-default" onClick={getFeatureOptions}>
           <span className="glyphicon glyphicon-list-alt"></span>
           Features
-        </a>
-        <a className="btn btn-default" onClick={getDevices}>
-          <span className="glyphicon glyphicon-eye-open"></span>
-          Devices
-        </a>
+        </a>        
         <a className="btn btn-default" onClick={() => {
           devices.map(device => 
             runFeatures(device, selectedApk, installFlag)
