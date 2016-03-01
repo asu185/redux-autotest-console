@@ -171,7 +171,7 @@ function syncDevicesStatus(connDevices, callback) {
     for (var i = 0; i < devices.length; i++) {
       for (var j = 0; j < connDevices.length; j++) {
         if (devices[i].name === connDevices[j].name) {
-          connDevices[j].isRunning = devices[i].isRunning;
+          connDevices[j].lock = devices[i].lock;
           connDevices[j].feature = devices[i].feature;
         }
       }
@@ -182,12 +182,12 @@ function syncDevicesStatus(connDevices, callback) {
   });
 }
 
-function setDeviceStatus(device, isRunning, callback) {
+function setDeviceStatus(device, lock, callback) {
   Device.findOne({ name: device.name }, function(err, target) {
     if (err) throw err;
     
     if (target) {      
-      target.isRunning = isRunning;
+      target.lock = lock;
       target.feature = device.feature;
       target.save(function(err) {
         if (err) throw err;
@@ -198,7 +198,7 @@ function setDeviceStatus(device, isRunning, callback) {
       var newDevice = Device({
         name: device.name,
         feature: device.feature,
-        isRunning: isRunning
+        lock: lock
       });
 
       newDevice.save(function(err) {

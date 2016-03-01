@@ -1,30 +1,30 @@
 import React from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
-import { onChangeDeviceFeature, setDeviceRunning } from '../actions/index';
+import { onChangeDeviceFeature, onChangeDeviceLock } from '../actions/index';
 
 const Device = ({ 
   device, 
   featureOptions, 
   onChangeDeviceFeature,
-  onChangeIsRunning
+  onChangeDeviceLock
 }) => {
   // console.log('Render device');
   return (
     <tr>
       <td>{device.name}</td>
       <td>
-        {'Unlock '}
+        {'Lock '}
         <input 
           type="checkbox"
-          checked={device.isRunning}
-          onChange={onChangeIsRunning} />          
+          checked={device.lock}
+          onChange={onChangeDeviceLock} />          
       </td>
       <td>
         <Select
           name="form-field-name"
           value={device.feature}
-          disabled={device.isRunning}
+          disabled={device.lock}
           options={featureOptions}
           onChange={onChangeDeviceFeature} />
       </td>
@@ -43,8 +43,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     onChangeDeviceFeature: (feature) => {
       dispatch(onChangeDeviceFeature(ownProps.device.name, feature));
     },
-    onChangeIsRunning: () => {
-      dispatch(setDeviceRunning(ownProps.device, false));
+    onChangeDeviceLock: () => {
+      dispatch(onChangeDeviceLock(ownProps.device));
     }
   }
 }

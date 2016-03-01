@@ -14,7 +14,7 @@ var deviceSchema = new Schema({
     require: true,
     trim: true
   },
-  isRunning: {
+  lock: {
     type: Boolean,
     default: false,
     require: true

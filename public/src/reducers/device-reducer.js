@@ -1,7 +1,7 @@
 import { 
   GET_DEVICES,
   CHANGE_DEVICE_FEATURE, 
-  SET_DEVICE_RUNNING, 
+  CHANGE_DEVICE_LOCK, 
   RUN_FEATURE,
   EMPTY_DEVICE_FEATURE
 } from '../actions/index'
@@ -15,12 +15,12 @@ const device = (state, action) => {
       return Object.assign({}, state, {
         feature: action.payload.feature
       });
-    case SET_DEVICE_RUNNING:
+    case CHANGE_DEVICE_LOCK:
       if (state.name !== action.payload.device.name) {
         return state;
       }
       return Object.assign({}, state, {
-        isRunning: action.payload.status
+        lock: !action.payload.device.lock
       });
     case RUN_FEATURE:
       if (state.name !== action.payload.data) {
@@ -28,7 +28,7 @@ const device = (state, action) => {
       }
       // Testing finish, unlock the device
       return Object.assign({}, state, {
-        isRunning: false
+        lock: false
       });
     case EMPTY_DEVICE_FEATURE:
       if (state.name !== action.payload.data) {
@@ -50,7 +50,7 @@ const devices = (state = [], action) => {
       return state.map(d => 
         device(d, action)
       );
-    case SET_DEVICE_RUNNING:
+    case CHANGE_DEVICE_LOCK:
       return state.map(d => 
         device(d, action)
       );

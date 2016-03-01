@@ -12,7 +12,7 @@ export const RESIGN_APK = 'RESIGN_APK';
 export const RESIGN_APK_BEFORE = 'RESIGN_APK_BEFORE';
 export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
 export const RUN_FEATURE = 'RUN_FEATURE';
-export const SET_DEVICE_RUNNING = 'SET_DEVICE_RUNNING';
+export const CHANGE_DEVICE_LOCK = 'CHANGE_DEVICE_LOCK';
 export const EMPTY_DEVICE_FEATURE = 'EMPTY_DEVICE_FEATURE';
 
 export function getDevices() {
@@ -98,10 +98,10 @@ export function runFeatures(device, selectedApk, installFlag) {
   }
 }
 
-export function setDeviceRunning(device, status) {
+export function onChangeDeviceLock(device) {
   return {
-    type: SET_DEVICE_RUNNING,
-    payload: { device, status }
+    type: CHANGE_DEVICE_LOCK,
+    payload: { device }
   }
 }
 

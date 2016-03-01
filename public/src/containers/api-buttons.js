@@ -4,7 +4,7 @@ import {
   getFeatureOptions, 
   getDevices, 
   runFeatures, 
-  setDeviceRunning,
+  onChangeDeviceLock,
   onEmptyDeviceFeature
 } from '../actions/index';
 
@@ -57,9 +57,9 @@ function mapDispatchToProps(dispatch) {
       dispatch(getDevices());
     },
     runFeatures: (device, selectedApk, installFlag) => {
-      if (!device.isRunning) { // Only run unlocked device
+      if (!device.lock) { // Only run unlocked device
         if (device.feature) { // Run the feature
-          dispatch(setDeviceRunning(device, true));
+          dispatch(onChangeDeviceLock(device));
           dispatch(runFeatures(device, selectedApk, installFlag));
         } else { // Empty the device feature in database
           dispatch(onEmptyDeviceFeature(device));
