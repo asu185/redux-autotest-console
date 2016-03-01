@@ -97,9 +97,9 @@ export function runFeatures(device, selectedApk, installFlag) {
   }
 }
 
-export function setDeviceRunning(device) {
+export function setDeviceRunning(device, status) {
   return {
     type: SET_DEVICE_RUNNING,
-    payload: device
+    payload: { device, status }
   }
 }

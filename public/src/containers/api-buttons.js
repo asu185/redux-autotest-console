@@ -56,7 +56,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(getDevices());
     },
     runFeatures: (device, selectedApk, installFlag) => {
-      dispatch(setDeviceRunning(device));
+      dispatch(setDeviceRunning(device, true));
       dispatch(runFeatures(device, selectedApk, installFlag));
     }
   }

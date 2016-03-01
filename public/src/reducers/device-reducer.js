@@ -15,12 +15,12 @@ const device = (state, action) => {
         feature: action.payload.feature
       });
     case SET_DEVICE_RUNNING:
-      if (state.name !== action.payload.name) {
+      if (state.name !== action.payload.device.name) {
         return state;
       }  
 
       return Object.assign({}, state, {
-        isRunning: true
+        isRunning: action.payload.status
       });
     case RUN_FEATURE:
       if (state.name !== action.payload.data) {
