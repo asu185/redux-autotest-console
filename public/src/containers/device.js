@@ -10,6 +10,8 @@ const Device = ({
   onChangeDeviceLock
 }) => {
   // console.log('Render device');
+  let reportDir = device.name.replace(':', '.');
+  let reportPath = 'reports/' + reportDir + '/' + reportDir + '_report.html';
   return (
     <tr>
       <td>{device.name}</td>
@@ -28,6 +30,7 @@ const Device = ({
           options={featureOptions}
           onChange={onChangeDeviceFeature} />
       </td>
+      <td><a href={reportPath}>Report</a></td>
     </tr>
   )
 }

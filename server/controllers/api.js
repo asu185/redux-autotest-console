@@ -66,11 +66,12 @@ exports.run = function(req, res) {
   var install_flag = req.body.installFlag;
   var cmd = 'cp ../config/';
   var options = {cwd: autotest_dir};
-  var report_basic_dir = options.cwd + 'reports/';
+  var report_basic_path = __dirname + '/../../public/reports/';
 
   var name = device.name;
   var feature = device.feature;
-  var report_dir = report_basic_dir + name + '/';
+  var report_dir = name.replace(':', '.');
+  var report_path = report_basic_path + report_dir + '/';
 
   if (install_flag) {
     cmd += 'install.rb features/support/app_installation_hooks.rb;'
@@ -79,8 +80,8 @@ exports.run = function(req, res) {
   }
   cmd += 'calabash-android run ' + apk + ' ';
 
-  if(!fs.existsSync(report_basic_dir)){
-    fs.mkdirSync(report_basic_dir, 0766, function(err){
+  if(!fs.existsSync(report_basic_path)){
+    fs.mkdirSync(report_basic_path, 0766, function(err){
       if(err){ 
         console.log(err);
         res.send("ERROR! Can't make the directory! \n");
@@ -88,8 +89,8 @@ exports.run = function(req, res) {
     });
   }
 
-  if(!fs.existsSync(report_dir)){
-    fs.mkdirSync(report_dir, 0766, function(err){
+  if(!fs.existsSync(report_path)){
+    fs.mkdirSync(report_path, 0766, function(err){
       if(err){ 
         console.log(err);
         res.send("ERROR! Can't make the directory! \n");
@@ -100,7 +101,7 @@ exports.run = function(req, res) {
   // console.log('feature: ' + feature);
   if (feature === 'all') {
     setDeviceStatus(device, true, function() {
-      cmd += ' --format html --out ' + report_dir + name + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_dir;
+      cmd += ' --format html --out ' + report_path + report_dir + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
         res.end(name);
@@ -108,7 +109,7 @@ exports.run = function(req, res) {
     });
   } else {
     setDeviceStatus(device, true, function() {
-      cmd += feature + ' --format html --out ' + report_dir + name + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_dir;
+      cmd += feature + ' --format html --out ' + report_path + report_dir + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
         res.end(name);

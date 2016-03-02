@@ -35,7 +35,8 @@ class DeviceList extends Component {
             <tr className="table-title">
               <td width="42%">Devices</td>
               <td width="8%"></td>
-              <td width="50%">Features</td>
+              <td width="45%">Features</td>
+              <td width="5%"></td>
             </tr>
             {this.renderList()}
           </tbody>

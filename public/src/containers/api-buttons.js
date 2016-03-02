@@ -22,11 +22,11 @@ const ApiButtons = ({
       <div className="btn-group pull-right" role="group" aria-label="...">
         <a className="btn btn-default" onClick={getDevices}>
           <span className="glyphicon glyphicon-repeat"></span>
-          SyncDevices
+          Sync Devices
         </a>
         <a className="btn btn-default" onClick={getFeatureOptions}>
           <span className="glyphicon glyphicon-list-alt"></span>
-          Features
+          Sync Feature List
         </a>        
         <a className="btn btn-default" onClick={() => {
           devices.map(device => 
