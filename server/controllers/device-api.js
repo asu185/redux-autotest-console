@@ -3,26 +3,6 @@ var Device = mongoose.model('Device');
 var fs = require('fs');
 var autotest_dir = __dirname + '/../../omlet-autotest/';
 
-exports.features = function(req, res) {
-  fs.readFile('./config/features.txt', 'utf8', function (err, result) {
-    if (err) {
-      return console.log(err);
-    }
-    
-    var defaultFeatures = [{ value: 'all', label: 'All' }];
-    var features = result.split('\n');
-    features = features.map(function(feature) {
-      var value = feature.split(' ')[0];
-      var label = feature.split(' ')[1];
-      return { value: value, label: label };
-    });
-
-    features = defaultFeatures.concat(features);
-    // console.log(features);
-    res.jsonp(features);
-  });
-};
-
 exports.apkList = function(req, res) {
   var options = {cwd: autotest_dir};
 
@@ -80,23 +60,8 @@ exports.run = function(req, res) {
   }
   cmd += 'calabash-android run ' + apk + ' ';
 
-  if(!fs.existsSync(report_basic_path)){
-    fs.mkdirSync(report_basic_path, 0766, function(err){
-      if(err){ 
-        console.log(err);
-        res.send("ERROR! Can't make the directory! \n");
-      }
-    });
-  }
-
-  if(!fs.existsSync(report_path)){
-    fs.mkdirSync(report_path, 0766, function(err){
-      if(err){ 
-        console.log(err);
-        res.send("ERROR! Can't make the directory! \n");
-      }
-    });
-  }
+  mkdirSyncIfNotExist(report_basic_path);
+  mkdirSyncIfNotExist(report_path);
 
   // console.log('feature: ' + feature);
   if (feature === 'all') {
@@ -148,6 +113,17 @@ exports.emptyDeviceFeature = function(req, res) {
   setDeviceStatus(device, false);
   res.end(name);
 };
+
+function mkdirSyncIfNotExist(path) {
+  if(!fs.existsSync(path)){
+    fs.mkdirSync(path, 0766, function(err) {
+      if(err){ 
+        console.log(err);
+        res.send("ERROR! Can't make the directory! \n");
+      }
+    });
+  }
+}
 
 function runCmd(cmd, options, callback) {
   var child_process = require('child_process');

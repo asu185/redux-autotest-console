@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { 
-  getFeatureOptions, 
   getDevices, 
   runFeatures, 
   onChangeDeviceLock,
@@ -12,7 +11,6 @@ const ApiButtons = ({
   devices,
   selectedApk,
   installFlag,
-  getFeatureOptions,
   getDevices,
   runFeatures 
 }) => {  
@@ -24,10 +22,6 @@ const ApiButtons = ({
           <span className="glyphicon glyphicon-repeat"></span>
           Sync Devices
         </a>
-        <a className="btn btn-default" onClick={getFeatureOptions}>
-          <span className="glyphicon glyphicon-list-alt"></span>
-          Sync Feature List
-        </a>        
         <a className="btn btn-default" onClick={() => {
           devices.map(device => 
             runFeatures(device, selectedApk, installFlag)
@@ -50,9 +44,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getFeatureOptions: () => {
-      dispatch(getFeatureOptions());
-    },
     getDevices: () => {
       dispatch(getDevices());
     },

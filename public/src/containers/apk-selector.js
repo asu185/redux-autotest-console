@@ -44,7 +44,7 @@ const customFormRenderer = (onSubmit) => {
 const ApkSelector = (props) => {
   // console.log('Render apk-selector');
   return (    
-    <div>    
+    <div id="ApkSelector">
       <FileUploadProgress key='ex1' url='http://localhost:8888/api/upload-apk'
         onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
         onLoad={ (e, request) => {console.log('load', e, request);}}
@@ -53,16 +53,16 @@ const ApkSelector = (props) => {
         formGetter={formGetter}
         formRenderer={customFormRenderer} />
 
-      <span>Select the apk: </span>
+      <span>Select APK: </span>
       <select onChange={props.onChangeApk}>
         {props.apkSelector.apks.map(function(apk) {
           return <option key={apk} value={apk}>{apk}</option>
         })}
       </select>
-      <a className={'glyphicon glyphicon-repeat' + toggleRotating(props.apkSelector.isLoadingApkList)}
+      <a title={'Refresh the APK list'} className={'glyphicon glyphicon-repeat' + toggleRotating(props.apkSelector.isLoadingApkList)}
         onClick={props.getApkList}>
       </a>
-      <a className={'glyphicon glyphicon-pencil' + toggleRotating(props.apkSelector.isResigning)}
+      <a title={'Resign the selected APK'} className={'glyphicon glyphicon-pencil' + toggleRotating(props.apkSelector.isResigning)}
         onClick={() => props.resignApk(props.apkSelector.selectedApk)}>
       </a>      
     </div>

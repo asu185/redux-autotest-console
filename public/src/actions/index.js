@@ -14,6 +14,8 @@ export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
 export const RUN_FEATURE = 'RUN_FEATURE';
 export const CHANGE_DEVICE_LOCK = 'CHANGE_DEVICE_LOCK';
 export const EMPTY_DEVICE_FEATURE = 'EMPTY_DEVICE_FEATURE';
+export const ADD_NEW_FEATURE = 'ADD_NEW_FEATURE';
+export const REMOVE_FEATURE = 'REMOVE_FEATURE';
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -111,6 +113,28 @@ export function onEmptyDeviceFeature(device) {
 
   return {
     type: EMPTY_DEVICE_FEATURE,
+    payload: request
+  }
+}
+
+export function addNewFeature(feature) {
+  const value = feature.split(' ')[0];
+  const label = feature.split(' ')[1];
+  const url = ROOT_URL + 'add-new-feature';
+  const request = axios.post(url, { value, label });
+
+  return {
+    type: ADD_NEW_FEATURE,
+    payload: request
+  }
+}
+
+export function removeFeature(value) {
+  const url = ROOT_URL + 'remove-feature';
+  const request = axios.post(url, { value });
+
+  return {
+    type: REMOVE_FEATURE,
     payload: request
   }
 }

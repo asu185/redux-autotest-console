@@ -15,8 +15,21 @@
   line-height: 34px;
 }
 
-.Select {
+td .Select {
   width: 90%;
+}
+
+a {
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+#FeatureController a {
+  margin-top: 10px;
+}
+
+#ApkSelector {
+  line-height: 25px;
 }
 
 @-webkit-keyframes rotating {
@@ -32,8 +45,4 @@
 .rotating {
   -webkit-animation: rotating 1s linear infinite;
   -moz-animation: rotating 1s linear infinite;
-}
-
-a {
-  margin: 0 10px;
 }

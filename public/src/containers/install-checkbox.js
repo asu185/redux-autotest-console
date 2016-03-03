@@ -6,7 +6,7 @@ const InstallCheckbox = ({ installFlag, onChangeInstallFlag }) => {
   // console.log('Render install-checkbox');
   return (
     <div>
-      <span>Install/Reinstall apk: </span>
+      <span>{'Install / Reinstall APK: '}</span>
       <input 
         type="checkbox"
         checked={installFlag}
