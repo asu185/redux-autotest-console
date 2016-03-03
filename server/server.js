@@ -6,6 +6,7 @@ require('./models/device');
 require('./models/feature');
 var device_api = require('./controllers/device-api');
 var feature_api = require('./controllers/feature-api');
+var apk_api = require('./controllers/apk-api');
 var multer  = require('multer');
 var upload = multer({ dest: 'omlet-autotest/' });
 var app = express();
@@ -23,15 +24,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(allowCrossDomain);
 
-app.get('/api/apk-list', device_api.apkList);
-app.get('/api/devices', device_api.devices);
-app.post('/api/run', device_api.run);
-app.post('/api/resign', device_api.resign);
-app.post('/api/upload-apk', upload.single('file'), device_api.uploadApk);
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/../public');
+app.set('view options', { layout: false });
+
+app.get('/api/apk-list', apk_api.apkList);
+app.post('/api/resign-apk', apk_api.resignApk);
+app.post('/api/upload-apk', upload.single('file'), apk_api.uploadApk);
+
+app.get('/api/devices', device_api.getDevices);
+app.post('/api/run-test', device_api.runTest);
 app.post('/api/empty-device-feature', device_api.emptyDeviceFeature);
+app.post('/api/screenshots', device_api.getDeviceScreenshots);
+
 app.get('/api/features', feature_api.features);
 app.post('/api/add-new-feature', feature_api.addNewFeature);
 app.post('/api/remove-feature', feature_api.removeFeature);
+
+app.get('/screenshots/:device', function(req, res) {
+  var device = req.params.device;
+  res.render('screenshots', {
+    device: device
+  });
+});
 
 var url = 'mongodb://localhost/redux-autotest';
 mongoose.connect(url, function(err) {

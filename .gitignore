@@ -1,5 +1,6 @@
 npm-debug.log
 node_modules/*
 public/lib/*
+public/reports
 public/bundle.js
 omlet-autotest

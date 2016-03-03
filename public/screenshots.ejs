@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="../lib/bootstrap-css/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .item {
+            display: inline-block;
+            text-align:center;
+        }
+
+        img {
+            width: 350px;
+            margin: 20px 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><%= device %></a>
+            </div>
+        </div>
+    </div>
+    <div id="container" class="container"></div>
+    
+
+<script src="../lib/jquery/dist/jquery.min.js"></script>
+<script>
+function renderScreenshots(device) {
+    var url = 'http://localhost:8888/api/screenshots';
+    var path = '../reports/' + device.replace(':', '.') + '/';    
+    
+    $.post(url, { device: device }, function(screenshots) {
+        screenshots.forEach(function(screenshot) {
+            var item_html = [
+                '<div class="item">',
+                '<h3>' + screenshot + '</h3>',
+                '<img src="' + path + screenshot + '" />',
+                '</div>'
+            ].join('\n');
+
+            $('#container').append(item_html);
+        });    
+    });  
+}
+var device = $('.navbar-brand').text();
+renderScreenshots(device);
+
+</script>
+</body>
+
+</html>

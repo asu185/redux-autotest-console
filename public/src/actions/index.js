@@ -74,7 +74,7 @@ export function resignApkBefore() {
 }
 
 export function resignApk(selectedApk) {
-  const url = ROOT_URL + 'resign';
+  const url = ROOT_URL + 'resign-apk';
   const request = axios.post(url, { selectedApk });
 
   return {
@@ -90,7 +90,7 @@ export function onChangeInstallFlag() {
 }
 
 export function runFeatures(device, selectedApk, installFlag) {  
-  const url = ROOT_URL + 'run';
+  const url = ROOT_URL + 'run-test';
   const data = { device, selectedApk, installFlag };
   const request = axios.post(url, data);
 

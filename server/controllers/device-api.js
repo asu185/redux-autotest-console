@@ -1,24 +1,10 @@
 var mongoose = require('mongoose');
 var Device = mongoose.model('Device');
 var fs = require('fs');
-var autotest_dir = __dirname + '/../../omlet-autotest/';
+var AUTOTEST_DIR = __dirname + '/../../omlet-autotest/';
+var REPORT_BASIC_PATH = __dirname + '/../../public/reports/';
 
-exports.apkList = function(req, res) {
-  var options = {cwd: autotest_dir};
-
-  runCmd('ls *.apk', options, function(result) {
-    var apks = [];
-    result = result.split('\n');
-    for (var i in result) {
-      if (result[i].indexOf('.apk') != -1) {
-        apks.push(result[i]);
-      }
-    }
-    res.jsonp(apks);
-  });
-};
-
-exports.devices = function(req, res) {
+exports.getDevices = function(req, res) {
   runCmd('adb devices', {}, function(content) {
     // console.log(content);
     var devices = [];
@@ -40,18 +26,17 @@ exports.devices = function(req, res) {
   });
 };
 
-exports.run = function(req, res) {
+exports.runTest = function(req, res) {
   var device = req.body.device;
   var apk = req.body.selectedApk;
   var install_flag = req.body.installFlag;
   var cmd = 'cp ../config/';
-  var options = {cwd: autotest_dir};
-  var report_basic_path = __dirname + '/../../public/reports/';
+  var options = {cwd: AUTOTEST_DIR};  
 
   var name = device.name;
   var feature = device.feature;
   var report_dir = name.replace(':', '.');
-  var report_path = report_basic_path + report_dir + '/';
+  var report_path = REPORT_BASIC_PATH + report_dir + '/';
 
   if (install_flag) {
     cmd += 'install.rb features/support/app_installation_hooks.rb;'
@@ -60,7 +45,7 @@ exports.run = function(req, res) {
   }
   cmd += 'calabash-android run ' + apk + ' ';
 
-  mkdirSyncIfNotExist(report_basic_path);
+  mkdirSyncIfNotExist(REPORT_BASIC_PATH);
   mkdirSyncIfNotExist(report_path);
 
   // console.log('feature: ' + feature);
@@ -83,35 +68,23 @@ exports.run = function(req, res) {
   }
 };
 
-exports.resign = function(req, res) {
-  var options = {cwd: autotest_dir};
-  var apk = req.body.selectedApk;
-  var cmd = 'calabash-android resign ' + apk;
-
-  runCmd(cmd, options, function(result) {
-    // console.log(result);
-    res.jsonp(result);
-  });
-};
-
-exports.uploadApk = function(req, res) {  
-  var file = req.file;
-  var tmp_path = file.path;
-  var target_path = file.destination + file.originalname;
-
-  console.log('file:', file);
-
-  fs.rename(tmp_path, target_path, function(err) {
-    if (err) throw err;    
-    res.end('Uploaded.');
-  });
-};
-
 exports.emptyDeviceFeature = function(req, res) {
   var device = req.body.device;
   var name = device.name;
   setDeviceStatus(device, false);
   res.end(name);
+};
+
+exports.getDeviceScreenshots = function(req, res) {
+  var device = req.body.device.replace(':', '.');
+  var options = {cwd: REPORT_BASIC_PATH + device};
+  console.log(REPORT_BASIC_PATH + device);
+
+  runCmd('ls *.png', options, function(screenshots) {
+    screenshots = screenshots.trim().split('\n');
+    console.log(screenshots);
+    res.jsonp(screenshots);
+  });
 };
 
 function mkdirSyncIfNotExist(path) {
@@ -123,24 +96,6 @@ function mkdirSyncIfNotExist(path) {
       }
     });
   }
-}
-
-function runCmd(cmd, options, callback) {
-  var child_process = require('child_process');
-  // console.log(options);
-  console.log('Run cmd:', cmd);
-  child_process.exec(cmd, options, function(err, stdout, stderr) {
-    if (err) {
-      return console.log(err);
-    }
-    if (callback) {
-      callback(stdout);
-    }
-    if (stderr) {
-      console.log('stderr:', stderr);
-      callback(stderr);
-    }
-  });
 }
 
 function syncDevicesStatus(connDevices, callback) {
@@ -183,6 +138,24 @@ function setDeviceStatus(device, lock, callback) {
         callback && callback();
         console.log('New device created.');
       });
+    }
+  });
+}
+
+function runCmd(cmd, options, callback) {
+  var child_process = require('child_process');
+  // console.log(options);
+  console.log('Run cmd:', cmd);
+  child_process.exec(cmd, options, function(err, stdout, stderr) {
+    if (err) {
+      return console.log(err);
+    }
+    if (callback) {
+      callback(stdout);
+    }
+    if (stderr) {
+      console.log('stderr:', stderr);
+      callback(stderr);
     }
   });
 }

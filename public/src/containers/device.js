@@ -30,6 +30,7 @@ const Device = ({
           options={featureOptions}
           onChange={onChangeDeviceFeature} />
       </td>
+      <td><a href={'screenshots/' + device.name}>Screenshots</a></td>
       <td><a href={reportPath}>Report</a></td>
     </tr>
   )
