@@ -10,7 +10,12 @@ $bower install
 $npm start
 
 For Deployment
-First, change the URL in server.js, actions/index.js, containers/apk-selector.js, index.html
+First, change the URL in 
+ - server/server.js
+ - public/src/actions/index.js
+ - public/src/containers/apk-selector.js
+ - public/screenshot.ejs
+ - public/index.html
 Then
 $sudo npm install -g forever bower
 $npm install
