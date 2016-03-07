@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 var Email = mongoose.model('Email');
 
 exports.emails = function(req, res) {
-  Email.find(function(err, features) {
+  Email.find(function(err, emails) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
-    res.jsonp(features);
+    res.jsonp(emails);
   });
 };
 

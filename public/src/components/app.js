@@ -18,7 +18,6 @@ class App extends Component {
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="row">
-              <EmailController />
               <FeatureController />
             </div>
             <div className="row">
