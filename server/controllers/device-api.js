@@ -78,11 +78,9 @@ exports.emptyDeviceFeature = function(req, res) {
 exports.getDeviceScreenshots = function(req, res) {
   var device = req.body.device.replace(':', '.');
   var options = {cwd: REPORT_BASIC_PATH + device};
-  console.log(REPORT_BASIC_PATH + device);
 
-  runCmd('ls *.png', options, function(screenshots) {
+  runCmd('ls -U *.png', options, function(screenshots) {
     screenshots = screenshots.trim().split('\n');
-    console.log(screenshots);
     res.jsonp(screenshots);
   });
 };
@@ -148,14 +146,12 @@ function runCmd(cmd, options, callback) {
   console.log('Run cmd:', cmd);
   child_process.exec(cmd, options, function(err, stdout, stderr) {
     if (err) {
-      return console.log(err);
+      console.log(err);
     }
-    if (callback) {
-      callback(stdout);
-    }
-    if (stderr) {
-      console.log('stderr:', stderr);
-      callback(stderr);
-    }
+
+    // console.log('stdout:', stdout);
+    // console.log('stderr:', stderr);
+
+    callback && callback(stdout);
   });
 }

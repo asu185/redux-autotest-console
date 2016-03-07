@@ -24,7 +24,7 @@ a {
   margin: 0 10px;
 }
 
-#FeatureController a {
+#FeatureController a, #EmailController a {
   margin-top: 10px;
 }
 

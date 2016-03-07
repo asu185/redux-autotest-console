@@ -46,14 +46,12 @@ function runCmd(cmd, options, callback) {
   console.log('Run cmd:', cmd);
   child_process.exec(cmd, options, function(err, stdout, stderr) {
     if (err) {
-      return console.log(err);
+      console.log(err);
     }
-    if (callback) {
-      callback(stdout);
-    }
-    if (stderr) {
-      console.log('stderr:', stderr);
-      callback(stderr);
-    }
+
+    // console.log('stdout:', stdout);
+    // console.log('stderr:', stderr);
+
+    callback && callback(stdout);
   });
 }

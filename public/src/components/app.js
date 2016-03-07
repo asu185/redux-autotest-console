@@ -5,6 +5,7 @@ import ApkSelector from '../containers/apk-selector';
 import InstallCheckbox from '../containers/install-checkbox';
 import ApiButtons from '../containers/api-buttons';
 import FeatureController from '../containers/feature-controller';
+import EmailController from '../containers/email-controller';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="row">
+              <EmailController />
               <FeatureController />
             </div>
             <div className="row">

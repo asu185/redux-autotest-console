@@ -16,6 +16,9 @@ export const CHANGE_DEVICE_LOCK = 'CHANGE_DEVICE_LOCK';
 export const EMPTY_DEVICE_FEATURE = 'EMPTY_DEVICE_FEATURE';
 export const ADD_NEW_FEATURE = 'ADD_NEW_FEATURE';
 export const REMOVE_FEATURE = 'REMOVE_FEATURE';
+export const ADD_NEW_EMAIL = 'ADD_NEW_EMAIL';
+export const REMOVE_EMAIL = 'REMOVE_EMAIL';
+export const GET_EMAILS = 'GET_EMAILS';
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -118,10 +121,12 @@ export function onEmptyDeviceFeature(device) {
 }
 
 export function addNewFeature(feature) {
-  const value = feature.split(' ')[0];
-  const label = feature.split(' ')[1];
+  // const value = feature.split(' ')[0];
+  // const label = feature.split(' ')[1];
+
   const url = ROOT_URL + 'add-new-feature';
-  const request = axios.post(url, { value, label });
+  // const request = axios.post(url, { value, label });
+  const request = axios.post(url, { value: feature, label: feature });
 
   return {
     type: ADD_NEW_FEATURE,
@@ -129,12 +134,41 @@ export function addNewFeature(feature) {
   }
 }
 
-export function removeFeature(value) {
+export function removeFeature(feature) {
   const url = ROOT_URL + 'remove-feature';
-  const request = axios.post(url, { value });
+  const request = axios.post(url, { value: feature });
 
   return {
     type: REMOVE_FEATURE,
     payload: request
   }
+}
+
+export function addNewEmail(email) {
+  const url = ROOT_URL + 'add-new-email';
+  const request = axios.post(url, { value: email, label: email });
+  return {
+    type: ADD_NEW_EMAIL,
+    payload: request
+  }
+}
+
+export function removeEmail(email) {
+  const url = ROOT_URL + 'remove-email';
+  const request = axios.post(url, { value: email });
+
+  return {
+    type: REMOVE_EMAIL,
+    payload: request
+  }
+}
+
+export function getEmails() {
+  const url = ROOT_URL + 'emails';
+  const request = axios.get(url);
+
+  return {
+    type: GET_EMAILS,
+    payload: request
+  };
 }
