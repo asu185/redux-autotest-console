@@ -37,6 +37,7 @@ exports.runTest = function(req, res) {
   var feature = device.feature;
   var report_dir = name.replace(':', '.');
   var report_path = REPORT_BASIC_PATH + report_dir + '/';
+  var report_name = new Date().getTime() + '_report.html ';
 
   if (install_flag) {
     cmd += 'install.rb features/support/app_installation_hooks.rb;'
@@ -51,7 +52,7 @@ exports.runTest = function(req, res) {
   // console.log('feature: ' + feature);
   if (feature === 'all') {
     setDeviceStatus(device, true, function() {
-      cmd += ' --format html --out ' + report_path + report_dir + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
+      cmd += ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
         res.end(name);
@@ -59,7 +60,7 @@ exports.runTest = function(req, res) {
     });
   } else {
     setDeviceStatus(device, true, function() {
-      cmd += feature + ' --format html --out ' + report_path + report_dir + '_report.html ' + 'ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
+      cmd += feature + ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
         res.end(name);
@@ -82,6 +83,16 @@ exports.getDeviceScreenshots = function(req, res) {
   runCmd('ls -U *.png', options, function(screenshots) {
     screenshots = screenshots.trim().split('\n');
     res.jsonp(screenshots);
+  });
+};
+
+exports.getDeviceReports = function(req, res) {
+  var device = req.body.device.replace(':', '.');
+  var options = {cwd: REPORT_BASIC_PATH + device};
+
+  runCmd('ls -U *.html', options, function(reports) {
+    reports = reports.trim().split('\n');
+    res.jsonp(reports);
   });
 };
 

@@ -4,7 +4,7 @@ import {
   CHANGE_DEVICE_LOCK, 
   RUN_FEATURE,
   EMPTY_DEVICE_FEATURE
-} from '../actions/index'
+} from '../actions/index';
 
 const device = (state, action) => {
   switch (action.type) {

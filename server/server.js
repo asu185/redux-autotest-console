@@ -38,6 +38,7 @@ app.get('/api/devices', device_api.getDevices);
 app.post('/api/run-test', device_api.runTest);
 app.post('/api/empty-device-feature', device_api.emptyDeviceFeature);
 app.post('/api/screenshots', device_api.getDeviceScreenshots);
+app.post('/api/reports', device_api.getDeviceReports);
 
 app.get('/api/features', feature_api.features);
 app.post('/api/add-new-feature', feature_api.addNewFeature);

@@ -19,6 +19,7 @@ export const REMOVE_FEATURE = 'REMOVE_FEATURE';
 export const ADD_NEW_EMAIL = 'ADD_NEW_EMAIL';
 export const REMOVE_EMAIL = 'REMOVE_EMAIL';
 export const GET_EMAILS = 'GET_EMAILS';
+export const GET_REPORTS = 'GET_REPORTS';
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -169,6 +170,16 @@ export function getEmails() {
 
   return {
     type: GET_EMAILS,
+    payload: request
+  };
+}
+
+export function getReports(device) {
+  const url = ROOT_URL + 'reports';
+  const request = axios.post(url, { device });
+
+  return {
+    type: GET_REPORTS,
     payload: request
   };
 }
