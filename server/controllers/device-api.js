@@ -37,7 +37,7 @@ exports.runTest = function(req, res) {
   var feature = device.feature;
   var report_dir = name.replace(':', '.');
   var report_path = REPORT_BASIC_PATH + report_dir + '/';
-  var report_name = new Date().getTime() + '_report.html ';
+  var report_name = new Date().getTime() + '.html ';
 
   if (install_flag) {
     cmd += 'install.rb features/support/app_installation_hooks.rb;'
@@ -55,7 +55,14 @@ exports.runTest = function(req, res) {
       cmd += ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
-        res.end(name);
+        console.log({
+          name: name, 
+          report: report_name
+        });
+        res.jsonp({
+          name: name, 
+          report: report_name
+        });
       });
     });
   } else {
@@ -63,7 +70,14 @@ exports.runTest = function(req, res) {
       cmd += feature + ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
         setDeviceStatus(device, false);
-        res.end(name);
+        console.log({
+          name: name, 
+          report: report_name
+        });
+        res.jsonp({
+          name: name, 
+          report: report_name
+        });
       });  
     });    
   }
@@ -80,9 +94,13 @@ exports.getDeviceScreenshots = function(req, res) {
   var device = req.body.device.replace(':', '.');
   var options = {cwd: REPORT_BASIC_PATH + device};
 
-  runCmd('ls -U *.png', options, function(screenshots) {
-    screenshots = screenshots.trim().split('\n');
-    res.jsonp(screenshots);
+  runCmd('ls -Ur *.png', options, function(screenshots) {
+    if (screenshots.length === 0) {
+      res.jsonp('');
+    } else {      
+      screenshots = screenshots.trim().split('\n');
+      res.jsonp(screenshots);  
+    }
   });
 };
 
@@ -90,9 +108,13 @@ exports.getDeviceReports = function(req, res) {
   var device = req.body.device.replace(':', '.');
   var options = {cwd: REPORT_BASIC_PATH + device};
 
-  runCmd('ls -U *.html', options, function(reports) {
-    reports = reports.trim().split('\n');
-    res.jsonp(reports);
+  runCmd('ls -Ur *.html', options, function(reports) {   
+    if (reports.length === 0) {
+      res.jsonp('');
+    } else {      
+      reports = reports.trim().split('\n');
+      res.jsonp(reports);  
+    }
   });
 };
 

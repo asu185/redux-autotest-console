@@ -36,16 +36,20 @@ function renderScreenshots(device) {
     var path = '../reports/' + device.replace(':', '.') + '/';    
     
     $.post(url, { device: device }, function(screenshots) {
-        screenshots.forEach(function(screenshot) {
-            var item_html = [
-                '<div class="item">',
-                '<h3>' + screenshot + '</h3>',
-                '<img src="' + path + screenshot + '" />',
-                '</div>'
-            ].join('\n');
+        if (screenshots) {
+            screenshots.forEach(function(screenshot) {            
+                var item_html = [
+                    '<div class="item">',
+                    '<h3>' + screenshot + '</h3>',
+                    '<img src="' + path + screenshot + '" />',
+                        '</div>'
+                    ].join('\n');
 
-            $('#container').append(item_html);
-        });    
+                $('#container').append(item_html);
+            });    
+        } else {
+            $('#container').append('<h1>No screenshot</h1>');
+        }
     });  
 }
 var device = $('.navbar-brand').text();

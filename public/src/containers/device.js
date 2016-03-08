@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
-import { onChangeDeviceFeature, onChangeDeviceLock, getReports } from '../actions/index';
+import { onChangeDeviceFeature, onChangeDeviceLock, getDeviceReports } from '../actions/index';
 
 class Device extends Component { 
   constructor(props) {
     super(props);
-    this.renderReports = this.renderReports.bind(this);
-    this.props.getReports();
+    this.renderReports = this.renderReports.bind(this);    
+    this.props.getDeviceReports();
   }
  
- renderReports() {
-    if (this.props.reports.length === 0) {
+  renderReports() {    
+    if (!this.props.device.reports) {
       return <li><a href='#'>No report</a></li>
     } else {          
       let reportDir = this.props.device.name.replace(':', '.');
       let reportPath = 'reports/' + reportDir + '/';
-      return this.props.reports.map(function(report) {        
+      return this.props.device.reports.map(function(report) {        
         return <li key={report}><a href={reportPath + report}>{report}</a></li>
       })
     }
@@ -61,8 +61,7 @@ class Device extends Component {
 
 function mapStateToProps(state) {
   return {
-    featureOptions: state.featureOptions,
-    reports: state.reports
+    featureOptions: state.featureOptions
   }
 }
 
@@ -74,8 +73,8 @@ function mapDispatchToProps(dispatch, ownProps) {
     onChangeDeviceLock: () => {
       dispatch(onChangeDeviceLock(ownProps.device));
     },
-    getReports: () => {      
-      dispatch(getReports(ownProps.device.name));
+    getDeviceReports: () => {      
+      dispatch(getDeviceReports(ownProps.device.name));
     }
   }
 }
