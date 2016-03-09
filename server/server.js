@@ -3,7 +3,6 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 require('./models/device');
-require('./models/feature');
 require('./models/email');
 var device_api = require('./controllers/device-api');
 var feature_api = require('./controllers/feature-api');
@@ -41,13 +40,11 @@ app.post('/api/screenshots', device_api.getDeviceScreenshots);
 app.post('/api/reports', device_api.getDeviceReports);
 
 app.get('/api/features', feature_api.features);
-app.post('/api/add-new-feature', feature_api.addNewFeature);
-app.post('/api/remove-feature', feature_api.removeFeature);
+app.post('/api/update-features', feature_api.updateFeatures);
 
 app.get('/api/emails', email_api.emails);
 app.post('/api/add-new-email', email_api.addNewEmail);
 app.post('/api/remove-email', email_api.removeEmail);
-
 
 app.get('/screenshots/:device', function(req, res) {
   var device = req.params.device;

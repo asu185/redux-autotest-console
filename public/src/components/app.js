@@ -4,7 +4,7 @@ import DeviceList from '../containers/device-list';
 import ApkSelector from '../containers/apk-selector';
 import InstallCheckbox from '../containers/install-checkbox';
 import ApiButtons from '../containers/api-buttons';
-import FeatureController from '../containers/feature-controller';
+import FeatureSelector from '../containers/feature-selector';
 import EmailController from '../containers/email-controller';
 
 class App extends Component {
@@ -18,7 +18,7 @@ class App extends Component {
           </div>
           <div className="col-md-6 col-sm-12">
             <div className="row">
-              <FeatureController />
+              <FeatureSelector />
             </div>
             <div className="row">
               <ApiButtons />

@@ -14,8 +14,7 @@ export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
 export const RUN_FEATURE = 'RUN_FEATURE';
 export const CHANGE_DEVICE_LOCK = 'CHANGE_DEVICE_LOCK';
 export const EMPTY_DEVICE_FEATURE = 'EMPTY_DEVICE_FEATURE';
-export const ADD_NEW_FEATURE = 'ADD_NEW_FEATURE';
-export const REMOVE_FEATURE = 'REMOVE_FEATURE';
+export const UPDATE_FEATURE_OPTIONS = 'UPDATE_FEATURE_OPTIONS';
 export const ADD_NEW_EMAIL = 'ADD_NEW_EMAIL';
 export const REMOVE_EMAIL = 'REMOVE_EMAIL';
 export const GET_EMAILS = 'GET_EMAILS';
@@ -121,26 +120,12 @@ export function onEmptyDeviceFeature(device) {
   }
 }
 
-export function addNewFeature(feature) {
-  // const value = feature.split(' ')[0];
-  // const label = feature.split(' ')[1];
-
-  const url = ROOT_URL + 'add-new-feature';
-  // const request = axios.post(url, { value, label });
-  const request = axios.post(url, { value: feature, label: feature });
+export function updateFeatureOptions(content) {
+  const url = ROOT_URL + 'update-features';
+  const request = axios.post(url, { features: content });
 
   return {
-    type: ADD_NEW_FEATURE,
-    payload: request
-  }
-}
-
-export function removeFeature(feature) {
-  const url = ROOT_URL + 'remove-feature';
-  const request = axios.post(url, { value: feature });
-
-  return {
-    type: REMOVE_FEATURE,
+    type: UPDATE_FEATURE_OPTIONS,
     payload: request
   }
 }

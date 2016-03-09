@@ -60,7 +60,7 @@ const ApkSelector = (props) => {
         })}
       </select>
       <a title={'Refresh the APK list'} className={'glyphicon glyphicon-repeat' + toggleRotating(props.apkSelector.isLoadingApkList)}
-        onClick={props.getApkList}>
+        onClick={props.getApkList}>        
       </a>
       <a title={'Resign the selected APK'} className={'glyphicon glyphicon-pencil' + toggleRotating(props.apkSelector.isResigning)}
         onClick={() => props.resignApk(props.apkSelector.selectedApk)}>
