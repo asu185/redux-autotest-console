@@ -48,6 +48,18 @@ a {
   margin-right: 5px;
 }
 
+.dropdown-menu .report_anchor {
+  display: inline;  
+}
+
+.dropdown-menu .report_trash {
+  margin-right: 10px;
+}
+
+.dropdown-menu .report_trash:hover {
+  background-color: #CCCCCC;
+}
+
 @-webkit-keyframes rotating {
   from {
     -webkit-transform: rotate(0deg);

@@ -105,7 +105,7 @@ exports.getDeviceScreenshots = function(req, res) {
 };
 
 exports.getDeviceReports = function(req, res) {
-  var device = req.body.device.replace(':', '.');
+  var device = req.body.device_name.replace(':', '.');
   var options = {cwd: REPORT_BASIC_PATH + device};
 
   runCmd('ls -Ur *.html', options, function(reports) {   
@@ -117,6 +117,24 @@ exports.getDeviceReports = function(req, res) {
     }
   });
 };
+
+exports.deleteDeviceReport = function(req, res) {
+  var report = req.body.report;
+  var device_name = req.body.device_name;
+
+  fs.unlink('./public/' + report, function(err) {
+    if (err) {
+      console.log(err);
+    }
+
+    var report_name = report.split('/')[2];
+
+    res.jsonp({
+      name: device_name,
+      report: report_name
+    });
+  })
+}
 
 function mkdirSyncIfNotExist(path) {
   if(!fs.existsSync(path)){

@@ -1,1 +1,2 @@
 features/arcade.feature:22 #Check the game list
+features/arcade.feature:21 #Check the arcade list

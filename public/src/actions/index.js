@@ -19,6 +19,7 @@ export const ADD_NEW_EMAIL = 'ADD_NEW_EMAIL';
 export const REMOVE_EMAIL = 'REMOVE_EMAIL';
 export const GET_EMAILS = 'GET_EMAILS';
 export const GET_DEVICE_REPORTS = 'GET_DEVICE_REPORTS';
+export const DELETE_DEVICE_REPORT = 'DELETE_DEVICE_REPORT';
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -159,12 +160,22 @@ export function getEmails() {
   };
 }
 
-export function getDeviceReports(device) {
+export function getDeviceReports(device_name) {
   const url = ROOT_URL + 'reports';
-  const request = axios.post(url, { device });
+  const request = axios.post(url, { device_name });
 
   return {
     type: GET_DEVICE_REPORTS,
+    payload: request
+  };
+}
+
+export function deleteDeviceReport(device_name, report) {
+  const url = ROOT_URL + 'delete-report';
+  const request = axios.post(url, { device_name, report });
+
+  return {
+    type: DELETE_DEVICE_REPORT,
     payload: request
   };
 }

@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { connect } from 'react-redux';
-import { onChangeDeviceFeature, onChangeDeviceLock, getDeviceReports } from '../actions/index';
+import { 
+  onChangeDeviceFeature, 
+  onChangeDeviceLock, 
+  getDeviceReports, 
+  deleteDeviceReport 
+} from '../actions/index';
 
 class Device extends Component { 
   constructor(props) {
@@ -9,7 +14,7 @@ class Device extends Component {
     this.renderReports = this.renderReports.bind(this);    
     this.props.getDeviceReports();
   }
- 
+
   renderReports() {    
     if (!this.props.device.reports) {
       return <li><a href='#'>No report</a></li>
@@ -17,8 +22,21 @@ class Device extends Component {
       let reportDir = this.props.device.name.replace(':', '.');
       let reportPath = 'reports/' + reportDir + '/';
       return this.props.device.reports.map(function(report) {        
-        return <li key={report}><a href={reportPath + report}>{report}</a></li>
-      })
+        return (
+          <li key={report}>                        
+            <a className={'report_anchor'} href={reportPath + report}>              
+              {report}
+            </a>
+            <span 
+              title={'Delete the report'} 
+              className={'report_trash glyphicon glyphicon-trash'}
+              onClick={ () => {
+                this.props.deleteDeviceReport(this.props.device.name, reportPath + report);
+              }} >
+            </span>
+          </li>
+        )
+      }.bind(this));
     }
   }
 
@@ -75,6 +93,9 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     getDeviceReports: () => {      
       dispatch(getDeviceReports(ownProps.device.name));
+    },
+    deleteDeviceReport: (device_name, report) => {
+      dispatch(deleteDeviceReport(device_name, report));
     }
   }
 }

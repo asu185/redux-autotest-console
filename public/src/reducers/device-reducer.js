@@ -4,7 +4,8 @@ import {
   CHANGE_DEVICE_LOCK, 
   RUN_FEATURE,
   EMPTY_DEVICE_FEATURE,
-  GET_DEVICE_REPORTS
+  GET_DEVICE_REPORTS,
+  DELETE_DEVICE_REPORT
 } from '../actions/index';
 
 const device = (state, action) => {
@@ -27,9 +28,11 @@ const device = (state, action) => {
       if (state.name !== action.payload.data.name) {
         return state;
       }
+      
       // Testing finish, unlock the device and refresh the reports           
-      let newReports = state.reports.slice(0) || [];
+      var newReports = state.reports.slice(0) || [];
       newReports.unshift(action.payload.data.report);
+      
       return Object.assign({}, state, {
         lock: false,
         reports: newReports
@@ -44,6 +47,21 @@ const device = (state, action) => {
     case GET_DEVICE_REPORTS:
       return Object.assign({}, state, {
         reports: action.payload.data
+      });
+    case DELETE_DEVICE_REPORT:
+      if (state.name !== action.payload.data.name) {
+        return state;
+      }      
+      
+      var newReports = state.reports.filter( r => {
+        return r !== action.payload.data.report
+      });
+      console.log('newReports:', newReports);
+      
+      
+      return Object.assign({}, state, {
+        lock: false,
+        reports: newReports
       });
     default:
       return state;
@@ -71,6 +89,10 @@ const devices = (state = [], action) => {
         device(d, action)
       );
     case GET_DEVICE_REPORTS:
+      return state.map(d =>
+        device(d, action)
+      );
+    case DELETE_DEVICE_REPORT:
       return state.map(d =>
         device(d, action)
       );
