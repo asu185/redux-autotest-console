@@ -29,8 +29,8 @@ const customFormRenderer = (onSubmit) => {
       method="post" >
       <div className="fileinput fileinput-new" data-provides="fileinput">          
         <span className="btn btn-default btn-file">
-          <span className="fileinput-new">Select file</span>
-          <span className="fileinput-exists fileinput-filename">Select file</span>            
+          <span className="fileinput-new">Select APK to upload</span>
+          <span className="fileinput-exists fileinput-filename">Select APK to upload</span>
           <input type="file" name="file" />
         </span>
         <button className="btn btn-primary" type="button" onClick={onSubmit} >
@@ -53,7 +53,7 @@ const ApkSelector = (props) => {
         formGetter={formGetter}
         formRenderer={customFormRenderer} />
 
-      <span>Select APK: </span>
+      <span>Select APK to run: </span>
       <select onChange={props.onChangeApk}>
         {props.apkSelector.apks.map(function(apk) {
           return <option key={apk} value={apk}>{apk}</option>

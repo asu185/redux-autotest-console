@@ -33,7 +33,7 @@ const ApiButtons = ({
             runFeatures(data);
           })}}>
           <span className="glyphicon glyphicon-play"></span>
-          Run
+          Run Testings
         </a>
       </div>
     </div>
