@@ -7,6 +7,7 @@ import {
   onEmptyDeviceFeature
 } from '../actions/index';
 import FeatureEditor from './feature-editor';
+import EmailEditor from '../containers/email-editor';
 
 const ApiButtons = ({ 
   devices,
@@ -19,6 +20,7 @@ const ApiButtons = ({
   return (
     <div>
       <div className="btn-group pull-right" role="group" aria-label="...">
+        <EmailEditor />
         <FeatureEditor />
         <a className="btn btn-default" onClick={getDevices}>
           <span className="glyphicon glyphicon-repeat"></span>

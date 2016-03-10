@@ -5,7 +5,7 @@ exports.features = function(req, res) {
     if (err) {    
       console.log(err);
     }     
-    var features = FeatureContentToOptions(content);      
+    var features = featureContentToOptions(content);      
     res.jsonp(features);    
   });   
 };
@@ -17,12 +17,12 @@ exports.updateFeatures = function(req, res) {
     if (err) {    
       console.log(err);
     }
-    var features = FeatureContentToOptions(featureContent);    
+    var features = featureContentToOptions(featureContent);    
     res.jsonp(features);
   });   
 }
 
-function FeatureContentToOptions(content) {
+function featureContentToOptions(content) {
   return content.trim().split('\n').map(function(feature) {   
     var value = feature.split(' #')[0];    
     var label = feature.split(' #')[1];    

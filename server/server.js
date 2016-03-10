@@ -1,12 +1,11 @@
+require('./models/device');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-require('./models/device');
-require('./models/email');
+var apk_api = require('./controllers/apk-api');
 var device_api = require('./controllers/device-api');
 var feature_api = require('./controllers/feature-api');
-var apk_api = require('./controllers/apk-api');
 var email_api = require('./controllers/email-api');
 var multer  = require('multer');
 var upload = multer({ dest: 'omlet-autotest/' });
@@ -44,8 +43,7 @@ app.get('/api/features', feature_api.features);
 app.post('/api/update-features', feature_api.updateFeatures);
 
 app.get('/api/emails', email_api.emails);
-app.post('/api/add-new-email', email_api.addNewEmail);
-app.post('/api/remove-email', email_api.removeEmail);
+app.post('/api/update-emails', email_api.updateEmails);
 
 app.get('/screenshots/:device', function(req, res) {
   var device = req.params.device;

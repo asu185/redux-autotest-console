@@ -1,64 +1,29 @@
-var mongoose = require('mongoose');
-var Email = mongoose.model('Email');
+var fs = require('fs');
 
-exports.emails = function(req, res) {
-  Email.find(function(err, emails) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
+exports.emails = function(req, res) {   
+  fs.readFile('./config/emails.txt', 'utf8', function (err, content) {   
+    if (err) {    
+      console.log(err);
+    }     
+    var emails = emailContentToOptions(content);      
+    res.jsonp(emails);    
+  });   
+};
+
+exports.updateEmails = function(req, res) {
+  var emailContent = req.body.emails;
+
+  fs.writeFile('./config/emails.txt', emailContent, 'utf8', function (err) {   
+    if (err) {    
+      console.log(err);
     }
+    var emails = emailContentToOptions(emailContent);    
     res.jsonp(emails);
+  });   
+}
+
+function emailContentToOptions(content) {
+  return content.trim().split('\n').map(function(email) {       
+    return { value: email, label: email };    
   });
-};
-
-exports.addNewEmail = function(req, res) {
-  var value = req.body.value;
-  var label = req.body.label;
-
-  Email.findOne({ value: value }, function(err, email) {
-    if (err) throw err;
-    if (email) {
-      // Email exists. Update the email label.
-      email.label = label;
-      email.save(function(err) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.jsonp(email);
-      });     
-    } else {      
-      // Not exists. Add new email.
-      var newEmail = Email({
-        value: value,
-        label: label
-      });
-      newEmail.save(function(err) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.jsonp(newEmail);  
-      });      
-    }
-  });
-};
-
-exports.removeEmail = function(req, res) {
-  var value = req.body.value;
-
-  Email.findOne({ value: value }, function(err, email) {
-    if (err) throw err;      
-    email.remove(function(err) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-      res.jsonp(email);  
-    });
-  });
-};
+}

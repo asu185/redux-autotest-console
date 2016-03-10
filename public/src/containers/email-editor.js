@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import { updateFeatureOptions } from '../actions/index';
+import { updateEmailOptions } from '../actions/index';
 
-const featureOptionsToContent = (featureOptions) => {
+const emailOptionsToContent = (emailOptions) => {
   let content = '';
-  featureOptions.map(function(feature) {
-    content += feature.value + ' #' + feature.label + '\n';
+  emailOptions.map(function(email) {
+    content += email.value + '\n';
   });
   return content;
 }
@@ -24,13 +24,13 @@ const customStyles = {
   }
 };
 
-class FeatureEditor extends Component {
+class EmailEditor extends Component {
   constructor(props) {
     super(props);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);        
-    this.onChangeFeatureContent = this.onChangeFeatureContent.bind(this);        
-    this.onSaveFeatureContent = this.onSaveFeatureContent.bind(this);
+    this.onChangeEmailContent = this.onChangeEmailContent.bind(this);        
+    this.onSaveEmailContent = this.onSaveEmailContent.bind(this);
     this.state = { 
       modalIsOpen: false,
       content: ''
@@ -45,29 +45,29 @@ class FeatureEditor extends Component {
     this.setState({ modalIsOpen: false });
   }
 
-  onChangeFeatureContent(event) {
+  onChangeEmailContent(event) {
     this.setState({ content: event.target.value });
   }
 
-  onSaveFeatureContent() {
-    this.props.updateFeatureOptions(this.state.content);
+  onSaveEmailContent() {
+    this.props.updateEmailOptions(this.state.content);
   }
 
   render() {
     return (
       <a className="btn btn-default" onClick={this.openModal}>
         <span className="glyphicon glyphicon-list-alt"></span>
-        Edit Features
+        Edit Emails
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
-          <h2>Features Editor</h2>
-          <div className="modal-hint">Separate the feature and display name by ' #'. Ex. feature_to_run #display_name</div>
+          <h2>Emails Editor</h2>
+          <div className="modal-hint">An email per line</div>
           <textarea         
             className="modal-textarea"
-            defaultValue={featureOptionsToContent(this.props.featureOptions)}
-            onChange={this.onChangeFeatureContent}>
+            defaultValue={emailOptionsToContent(this.props.emailOptions)}
+            onChange={this.onChangeEmailContent}>
           </textarea>
           <button 
             className="modal-button btn btn-default pull-right"
@@ -76,7 +76,7 @@ class FeatureEditor extends Component {
           <button 
             className="modal-button btn btn-success pull-right" 
             onClick={ () => {
-              this.onSaveFeatureContent();
+              this.onSaveEmailContent();
               this.closeModal();
             }}
           >Save</button>
@@ -88,16 +88,16 @@ class FeatureEditor extends Component {
 
 function mapStateToProps(state) {
   return {
-    featureOptions: state.featureOptions
+    emailOptions: state.emailOptions
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateFeatureOptions: (content) => {      
-      dispatch(updateFeatureOptions(content));
+    updateEmailOptions: (content) => {      
+      dispatch(updateEmailOptions(content));
     }    
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeatureEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(EmailEditor);

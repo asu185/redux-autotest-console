@@ -3,7 +3,7 @@ import DeviceList from '../containers/device-list';
 import ApkSelector from '../containers/apk-selector';
 import InstallCheckbox from '../containers/install-checkbox';
 import ApiButtons from '../containers/api-buttons';
-import EmailController from '../containers/email-controller';
+import EmailSelector from '../containers/email-selector';
 
 class App extends Component {
   render() {
@@ -15,9 +15,8 @@ class App extends Component {
             <InstallCheckbox />
           </div>
           <div className="col-md-6 col-sm-12">
-            <div className="row">
-              <ApiButtons />
-            </div>
+            <EmailSelector />
+            <ApiButtons />
           </div>
         </div>
         <div className="row">

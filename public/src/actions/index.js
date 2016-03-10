@@ -2,24 +2,31 @@ import axios from 'axios';
 
 const ROOT_URL = 'http://localhost:8888/api/';
 
-export const GET_DEVICES = 'GET_DEVICES';
-export const GET_FEATURE_OPTIONS = 'GET_FEATURE_OPTIONS';
+// Client actions
 export const CHANGE_DEVICE_FEATURE = 'CHANGE_DEVICE_FEATURE';
 export const CHANGE_APK = 'CHANGE_APK';
-export const GET_APK_LIST = 'GET_APK_LIST';
 export const GET_APK_LIST_BEFORE = 'GET_APK_LIST_BEFORE';
-export const RESIGN_APK = 'RESIGN_APK';
 export const RESIGN_APK_BEFORE = 'RESIGN_APK_BEFORE';
 export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
-export const RUN_FEATURE = 'RUN_FEATURE';
 export const CHANGE_DEVICE_LOCK = 'CHANGE_DEVICE_LOCK';
+
+// Server actions
+export const GET_APK_LIST = 'GET_APK_LIST';
+export const RESIGN_APK = 'RESIGN_APK';
+
+export const GET_DEVICES = 'GET_DEVICES';
+export const RUN_FEATURE = 'RUN_FEATURE';
+
 export const EMPTY_DEVICE_FEATURE = 'EMPTY_DEVICE_FEATURE';
-export const UPDATE_FEATURE_OPTIONS = 'UPDATE_FEATURE_OPTIONS';
-export const ADD_NEW_EMAIL = 'ADD_NEW_EMAIL';
-export const REMOVE_EMAIL = 'REMOVE_EMAIL';
-export const GET_EMAILS = 'GET_EMAILS';
 export const GET_DEVICE_REPORTS = 'GET_DEVICE_REPORTS';
 export const DELETE_DEVICE_REPORT = 'DELETE_DEVICE_REPORT';
+
+export const GET_FEATURE_OPTIONS = 'GET_FEATURE_OPTIONS';
+export const UPDATE_FEATURE_OPTIONS = 'UPDATE_FEATURE_OPTIONS';
+
+export const GET_EMAIL_OPTIONS = 'GET_EMAIL_OPTIONS';
+export const UPDATE_EMAIL_OPTIONS = 'UPDATE_EMAIL_OPTIONS';
+
 
 export function getDevices() {
   const url = ROOT_URL + 'devices';
@@ -131,33 +138,24 @@ export function updateFeatureOptions(content) {
   }
 }
 
-export function addNewEmail(email) {
-  const url = ROOT_URL + 'add-new-email';
-  const request = axios.post(url, { value: email, label: email });
-  return {
-    type: ADD_NEW_EMAIL,
-    payload: request
-  }
-}
-
-export function removeEmail(email) {
-  const url = ROOT_URL + 'remove-email';
-  const request = axios.post(url, { value: email });
-
-  return {
-    type: REMOVE_EMAIL,
-    payload: request
-  }
-}
-
-export function getEmails() {
+export function getEmailOptions() {
   const url = ROOT_URL + 'emails';
   const request = axios.get(url);
 
   return {
-    type: GET_EMAILS,
+    type: GET_EMAIL_OPTIONS,
     payload: request
   };
+}
+
+export function updateEmailOptions(content) {
+  const url = ROOT_URL + 'update-emails';
+  const request = axios.post(url, { emails: content });
+
+  return {
+    type: UPDATE_EMAIL_OPTIONS,
+    payload: request
+  }
 }
 
 export function getDeviceReports(device_name) {

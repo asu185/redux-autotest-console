@@ -3,14 +3,14 @@ import deviceReducer from './device-reducer';
 import featureOptionsReducer from './feature-options-reducer';
 import apkSelectorReducer from './apk-selector-reducer';
 import installCheckboxReducer from './install-checkbox-reducer';
-import emailListReducer from './email-list-reducer';
+import emailOptionsReducer from './email-options-reducer';
 
 const rootReducer = combineReducers({
   devices: deviceReducer,
   featureOptions: featureOptionsReducer,
   apkSelector: apkSelectorReducer,
   installCheckbox: installCheckboxReducer,
-  emailList: emailListReducer
+  emailOptions: emailOptionsReducer
 });
 
 export default rootReducer;
