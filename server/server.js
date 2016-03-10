@@ -36,6 +36,7 @@ app.get('/api/devices', device_api.getDevices);
 app.post('/api/run-test', device_api.runTest);
 app.post('/api/empty-device-feature', device_api.emptyDeviceFeature);
 app.post('/api/screenshots', device_api.getDeviceScreenshots);
+app.post('/api/delete-screenshot', device_api.deleteDeviceScreenshot);
 app.post('/api/reports', device_api.getDeviceReports);
 app.post('/api/delete-report', device_api.deleteDeviceReport);
 

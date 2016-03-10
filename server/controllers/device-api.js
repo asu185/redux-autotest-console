@@ -108,6 +108,18 @@ exports.getDeviceScreenshots = function(req, res) {
   });
 };
 
+exports.deleteDeviceScreenshot = function(req, res) {
+  var path = req.body.path;
+
+  fs.unlink('./public/' + path, function(err) {
+    if (err) {
+      console.log(err);
+    }
+    var screenshot = path.split('/')[2].split('.')[0];
+    res.jsonp(screenshot);
+  })
+}
+
 exports.getDeviceReports = function(req, res) {
   var device = req.body.device_name.replace(':', '.');
   var options = {cwd: REPORT_BASIC_PATH + device};
@@ -137,7 +149,7 @@ exports.deleteDeviceReport = function(req, res) {
       name: device_name,
       report: report_name
     });
-  })
+  });
 }
 
 function mkdirSyncIfNotExist(path) {

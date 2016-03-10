@@ -31,6 +31,16 @@
 
 <script src="../lib/jquery/dist/jquery.min.js"></script>
 <script>
+function deleteScreenshot(device, screenshot) {    
+    var url = 'http://localhost:8888/api/delete-screenshot';
+    var path = 'reports/' + device.replace(':', '.') + '/' + screenshot;
+
+    $.post(url, { path: path }, function(screenshot) {
+        $('#' + screenshot).remove();
+        console.log(screenshot + ' has been removed');
+    })
+}
+
 function renderScreenshots(device) {
     var url = 'http://localhost:8888/api/screenshots';
     var path = '../reports/' + device.replace(':', '.') + '/';    
@@ -39,16 +49,21 @@ function renderScreenshots(device) {
         if (screenshots) {
             screenshots.forEach(function(screenshot) {            
                 var item_html = [
-                    '<div class="item">',
-                    '<h3>' + screenshot + '</h3>',
-                    '<img src="' + path + screenshot + '" />',
-                        '</div>'
+                    '<div class="item" id="' + screenshot.split('.')[0] + '">',
+                    '<h3 style="display: inline">' + screenshot + '</h3>',
+                    '<span',
+                        'title="Delete the screenshot"',
+                        'class="btn glyphicon glyphicon-trash"',
+                        'onClick=deleteScreenshot("' + device + '",' + '"' + screenshot + '") >',
+                    '</span>',
+                    '<div><img src="' + path + screenshot + '" /></div>',
+                    '</div>'
                     ].join('\n');
 
                 $('#container').append(item_html);
             });    
         } else {
-            $('#container').append('<h1>No screenshot</h1>');
+            $('#container').append('<h1>No screenshot</h1>');            
         }
     });  
 }
