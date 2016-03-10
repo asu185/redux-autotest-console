@@ -21,7 +21,7 @@ nodemon.json
 package.json
 ```
 
-Finally, build the web tool in either way:
+Finally, build the web tool in either way, and the default port is 8888:
 ###1. Build the web tool locally for development
 
 ```
@@ -33,12 +33,13 @@ $npm start
 
 ###2. Build the web tool as a remote server for deployment
 First, change the URL in 
- \- server/server.js
- \- public/src/actions/index.js
- \- public/src/containers/apk-selector.js
- \- public/screenshot.ejs
- Since we don't need hot reloading server, replace ``http://localhost:8080/bundle.js`` with ``bundle.js`` in public/index.html
-Then
+```
+ - server/server.js
+ - public/src/actions/index.js
+ - public/src/containers/apk-selector.js
+ - public/screenshot.ejs
+```
+Since we don't need hot reloading server, replace ``http://localhost:8080/bundle.js`` with ``bundle.js`` in ``public/index.html``, then runs
 
 ```
 $sudo npm install -g forever bower
@@ -48,4 +49,4 @@ $npm run deploy
 ```
 
 ### Activate Sending Email Functionality
-To use the sending email functionality, you have to set the email & password in ``sendMailTo`` function in server/controllers/device-api.js
+To use the sending email functionality, you have to set the email & password in ``sendMailTo`` function in ``server/controllers/device-api.js``
