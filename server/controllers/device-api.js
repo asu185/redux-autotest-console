@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Device = mongoose.model('Device');
 var fs = require('fs');
+var mailer = require("nodemailer");
 var AUTOTEST_DIR = __dirname + '/../../omlet-autotest/';
 var REPORT_BASIC_PATH = __dirname + '/../../public/reports/';
 
@@ -30,6 +31,7 @@ exports.runTest = function(req, res) {
   var device = req.body.device;
   var apk = req.body.selectedApk;
   var install_flag = req.body.installFlag;
+  var emails = req.body.emails.split(',');
   var cmd = 'cp ../config/';
   var options = {cwd: AUTOTEST_DIR};  
 
@@ -54,11 +56,12 @@ exports.runTest = function(req, res) {
     setDeviceStatus(device, true, function() {
       cmd += ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
       runCmd(cmd, options, function(result) {
-        setDeviceStatus(device, false);
-        console.log({
-          name: name, 
-          report: report_name
-        });
+        if (emails.length > 0) {
+          emails.map(function(email) {
+            sendMailTo(email, name);
+          });  
+        }
+        setDeviceStatus(device, false);        
         res.jsonp({
           name: name, 
           report: report_name
@@ -68,12 +71,13 @@ exports.runTest = function(req, res) {
   } else {
     setDeviceStatus(device, true, function() {
       cmd += feature + ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
-      runCmd(cmd, options, function(result) {
-        setDeviceStatus(device, false);
-        console.log({
-          name: name, 
-          report: report_name
-        });
+      runCmd(cmd, options, function(result) {        
+        if (emails.length > 0) {
+          emails.map(function(email) {
+            sendMailTo(email, name);
+          });  
+        }
+        setDeviceStatus(device, false);        
         res.jsonp({
           name: name, 
           report: report_name
@@ -204,5 +208,33 @@ function runCmd(cmd, options, callback) {
     // console.log('stderr:', stderr);
 
     callback && callback(stdout);
+  });
+}
+
+function sendMailTo(email, name) {
+  // Use Smtp Protocol to send Email
+  var smtpTransport = mailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "from@gmail.com",
+        pass: "password"
+    }
+  });
+
+  var mail = {
+    from: "Autotest Tool<from@gmail.com>",
+    to: email,
+    subject: name + " testing completed",
+    text: name + " testing completed"
+  }
+
+  smtpTransport.sendMail(mail, function(error, response){
+    if(error){
+      console.log(error);
+    } else{
+      console.log("Message sent: " + response.message);
+    }
+
+    smtpTransport.close();
   });
 }

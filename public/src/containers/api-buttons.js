@@ -14,7 +14,8 @@ const ApiButtons = ({
   selectedApk,
   installFlag,
   getDevices,
-  runFeatures 
+  runFeatures,
+  emails 
 }) => {  
   // console.log('Render api-buttons');
   return (
@@ -27,9 +28,10 @@ const ApiButtons = ({
           Sync Devices
         </a>
         <a className="btn btn-default" onClick={() => {
-          devices.map(device => 
-            runFeatures(device, selectedApk, installFlag)
-          )}}>
+          devices.map(device => {
+            let data = { device, selectedApk, installFlag, emails };
+            runFeatures(data);
+          })}}>
           <span className="glyphicon glyphicon-play"></span>
           Run
         </a>
@@ -42,7 +44,8 @@ function mapStateToProps(state) {
   return {
     devices: state.devices,
     selectedApk: state.apkSelector.selectedApk,
-    installFlag: state.installCheckbox
+    installFlag: state.installCheckbox,
+    emails: state.emailSelector
   }
 }
 
@@ -51,13 +54,13 @@ function mapDispatchToProps(dispatch) {
     getDevices: () => {
       dispatch(getDevices());
     },
-    runFeatures: (device, selectedApk, installFlag) => {
-      if (!device.lock) { // Only run unlocked device
-        if (device.feature) { // Run the feature
-          dispatch(onChangeDeviceLock(device));
-          dispatch(runFeatures(device, selectedApk, installFlag));
+    runFeatures: (data) => {
+      if (!data.device.lock) { // Only run unlocked device
+        if (data.device.feature) { // Run the feature
+          dispatch(onChangeDeviceLock(data.device));
+          dispatch(runFeatures(data));
         } else { // Empty the device feature in database
-          dispatch(onEmptyDeviceFeature(device));
+          dispatch(onEmptyDeviceFeature(datadevice));
         }
       }
     }

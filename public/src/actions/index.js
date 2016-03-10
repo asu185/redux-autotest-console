@@ -9,6 +9,7 @@ export const GET_APK_LIST_BEFORE = 'GET_APK_LIST_BEFORE';
 export const RESIGN_APK_BEFORE = 'RESIGN_APK_BEFORE';
 export const CHANGE_INSTALL_FLAG = 'CHANGE_INSTALL_FLAG';
 export const CHANGE_DEVICE_LOCK = 'CHANGE_DEVICE_LOCK';
+export const CHANGE_EMAILS = 'CHANGE_EMAILS';
 
 // Server actions
 export const GET_APK_LIST = 'GET_APK_LIST';
@@ -100,9 +101,8 @@ export function onChangeInstallFlag() {
   }
 }
 
-export function runFeatures(device, selectedApk, installFlag) {  
+export function runFeatures(data) {  
   const url = ROOT_URL + 'run-test';
-  const data = { device, selectedApk, installFlag };
   const request = axios.post(url, data);
 
   return {
@@ -176,4 +176,11 @@ export function deleteDeviceReport(device_name, report) {
     type: DELETE_DEVICE_REPORT,
     payload: request
   };
+}
+
+export function onChangeEmails(emails) {
+  return {
+    type: CHANGE_EMAILS,
+    payload: emails
+  }
 }

@@ -9,6 +9,7 @@ $sudo gem install calabash-android
 ```
 
 Then place the omlet-autotest project on the root of the directory, so it looks like this
+```
 ./config
 ./node_modules
 ./omlet-autotest
@@ -18,6 +19,7 @@ webpack.config.js
 bower.json
 nodemon.json
 package.json
+```
 
 Finally, build the web tool in either way:
 ###1. Build the web tool locally for development
@@ -44,3 +46,6 @@ $npm install
 $bower install
 $npm run deploy
 ```
+
+### Activate Sending Email Functionality
+To use the sending email functionality, you have to set the email & password in ``sendMailTo`` function in server/controllers/device-api.js
