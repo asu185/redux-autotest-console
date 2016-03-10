@@ -24,7 +24,7 @@ a {
   margin: 0 10px;
 }
 
-#FeatureSelector a, #EmailController a {
+#EmailController a {
   margin-top: 10px;
 }
 
@@ -54,6 +54,7 @@ a {
 
 .dropdown-menu .report_trash {
   margin-right: 10px;
+  padding: 5px;
 }
 
 .dropdown-menu .report_trash:hover {

@@ -6,6 +6,7 @@ import {
   onChangeDeviceLock,
   onEmptyDeviceFeature
 } from '../actions/index';
+import FeatureEditor from './feature-editor';
 
 const ApiButtons = ({ 
   devices,
@@ -18,6 +19,7 @@ const ApiButtons = ({
   return (
     <div>
       <div className="btn-group pull-right" role="group" aria-label="...">
+        <FeatureEditor />
         <a className="btn btn-default" onClick={getDevices}>
           <span className="glyphicon glyphicon-repeat"></span>
           Sync Devices

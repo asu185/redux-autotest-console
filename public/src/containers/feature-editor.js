@@ -3,6 +3,14 @@ import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import { updateFeatureOptions } from '../actions/index';
 
+const getFeatureContent = (featureOptions) => {
+  let content = '';
+  featureOptions.map(function(feature) {
+    content += feature.value + ' #' + feature.label + '\n';
+  });
+  return content;
+}
+
 const customStyles = {
   content: {
     width: '90%',
@@ -47,24 +55,26 @@ class FeatureEditor extends Component {
 
   render() {
     return (
-      <a title={'Edit features'} className={'glyphicon glyphicon-list-alt'} onClick={this.openModal}>
+      <a title="Edit features" className="btn btn-default" onClick={this.openModal}>
+        <span className="glyphicon glyphicon-list-alt"></span>
+        Edit Features
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles} >
           <h2>Features Editor</h2>
-          <div className={'modal-hint'}>Separate the feature and display name by ' #'. Ex. feature_to_run #display_name</div>
+          <div className="modal-hint">Separate the feature and display name by ' #'. Ex. feature_to_run #display_name</div>
           <textarea         
-            className={'modal-textarea'}
-            defaultValue={this.props.featureContent}
+            className="modal-textarea"
+            defaultValue={getFeatureContent(this.props.featureOptions)}
             onChange={this.onChangeFeatureContent}>
           </textarea>
           <button 
-            className={'modal-button btn btn-default pull-right'} 
+            className="modal-button btn btn-default pull-right"
             onClick={this.closeModal}
           >Cancel</button>
           <button 
-            className={'modal-button btn btn-success pull-right'} 
+            className="modal-button btn btn-success pull-right" 
             onClick={ () => {
               this.onSaveFeatureContent();
               this.closeModal();
@@ -76,6 +86,12 @@ class FeatureEditor extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    featureOptions: state.featureOptions
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     updateFeatureOptions: (content) => {      
@@ -84,4 +100,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(FeatureEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(FeatureEditor);
