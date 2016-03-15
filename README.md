@@ -4,11 +4,15 @@ This is a web tool which helps you run Calabash testings on multiple devices sim
 
 ##How to build it
 Currently, the web tool need to be built on the same machine as the one which runs testings.
-So before using the web tool, make sure you've installed
+So before using the web tool, make sure you've installed calabash-android
+https://github.com/calabash/calabash-android
 
 ```
 $sudo gem install calabash-android
 ```
+
+Also, it uses Mongodb to save the devices' status. So make sure you have Mongodb installed and is running on your machine. 
+https://docs.mongodb.org/manual/installation/
 
 Then place the omlet-autotest project on the root of the directory, so it looks like this
 ```
