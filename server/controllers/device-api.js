@@ -30,8 +30,8 @@ exports.getDevices = function(req, res) {
 exports.runTest = function(req, res) {
   var device = req.body.device;
   var apk = req.body.selectedApk;
-  var install_flag = req.body.installFlag;
-  var emails = req.body.emails.split(',');
+  var install_flag = req.body.installFlag;  
+  var emails = req.body.emails.length > 0 ? req.body.emails.split(',') : '';
   var cmd = 'cp ../config/';
   var options = {cwd: AUTOTEST_DIR};  
 
@@ -71,7 +71,7 @@ exports.runTest = function(req, res) {
   } else {
     setDeviceStatus(device, true, function() {
       cmd += feature + ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
-      runCmd(cmd, options, function(result) {        
+      runCmd(cmd, options, function(result) {                
         if (emails.length > 0) {
           emails.map(function(email) {
             sendMailTo(email, name);
@@ -228,13 +228,13 @@ function sendMailTo(email, name) {
   var smtpTransport = mailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
-        user: "from@gmail.com",
+        user: "from@mobisocial.us",
         pass: "password"
     }
   });
 
   var mail = {
-    from: "Autotest Tool<from@gmail.com>",
+    from: "Autotest Tool<from@mobisocial.us>",
     to: email,
     subject: name + " testing completed",
     text: name + " testing completed"

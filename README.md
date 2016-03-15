@@ -1,8 +1,8 @@
 # Autotest Web Tool
 
 This is a web tool which helps you run Calabash testings on multiple devices simultaneously without knowing the Calabash commands.
-When click on the 'Run Testings' button, only unlock devices with non-empty feature would be ran.
 
+##How to build it
 Currently, the web tool need to be built on the same machine as the one which runs testings.
 So before using the web tool, make sure you've installed
 
@@ -23,7 +23,7 @@ nodemon.json
 package.json
 ```
 
-Finally, build the web tool in either way. The default port is 8888:
+Finally, build the web tool in either way, locally for development or as a remote server for deployment. The default port is at 8888:
 ###1. Build the web tool locally for development
 
 ```
@@ -50,5 +50,13 @@ $bower install
 $npm run deploy
 ```
 
-### Activate Sending Email Functionality
-To use the sending email functionality, you have to set the email & password in ``sendMailTo`` function in ``server/controllers/device-api.js``
+### Sending emails after the testings completed
+To activate this funcationality, you have to modify the code. 
+Set the email & password in ``sendMailTo`` function in ``server/controllers/device-api.js`` to indicate where the emails are sent from.
+
+**Note**: You might have to enable “allow less secure apps to access to account” on the account which sends the email, by the following link
+https://www.google.com/settings/security/lesssecureapps
+
+##How to use it
+Check the document
+https://docs.google.com/document/d/1iRAF0Z1ohfDo9jZDOiwpeD6CuGkyqYAKhwYJa_aRt9E/edit

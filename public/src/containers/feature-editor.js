@@ -50,7 +50,11 @@ class FeatureEditor extends Component {
   }
 
   onSaveFeatureContent() {
-    this.props.updateFeatureOptions(this.state.content);
+    if (!this.state.content) { // The content has not been changed.
+      this.props.updateFeatureOptions(featureOptionsToContent(this.props.featureOptions));  
+    } else {
+      this.props.updateFeatureOptions(this.state.content);  
+    }
   }
 
   render() {
@@ -94,7 +98,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateFeatureOptions: (content) => {      
+    updateFeatureOptions: (content) => {
       dispatch(updateFeatureOptions(content));
     }    
   }
