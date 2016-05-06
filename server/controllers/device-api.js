@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 var Device = mongoose.model('Device');
 var fs = require('fs');
-var mailer = require("nodemailer");
-var AUTOTEST_DIR = __dirname + '/../../omlet-autotest/';
+var mailer = require('nodemailer');
+var autotestDirName = require('../../config').autotestDirName;
+var AUTOTEST_DIR = __dirname + '/../../' + autotestDirName + '/';
 var REPORT_BASIC_PATH = __dirname + '/../../public/reports/';
 
 exports.getDevices = function(req, res) {
@@ -257,6 +258,6 @@ function runCmd(cmd, options, callback) {
       console.log('\n');
     }
 
-    callback && callback();
+    callback && callback(stdout);
   });
 }

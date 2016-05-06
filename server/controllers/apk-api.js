@@ -1,5 +1,6 @@
 var fs = require('fs');
-var AUTOTEST_DIR = __dirname + '/../../omlet-autotest/';
+var autotestDirName = require('../../config').autotestDirName;
+var AUTOTEST_DIR = __dirname + '/../../' + autotestDirName + '/';
 
 exports.apkList = function(req, res) {
   var options = {cwd: AUTOTEST_DIR};
@@ -47,7 +48,8 @@ function runCmd(cmd, options, callback) {
   console.log('\n');
   child_process.exec(cmd, options, function(err, stdout, stderr) {
     if (err) {
-      // console.log(err);
+      console.log('\033[96mErr:\033[39m\n' + err);
+      console.log('\n');
     }
 
     if (stdout) {
