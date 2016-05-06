@@ -51,7 +51,8 @@ exports.runTest = function(req, res) {
   mkdirSyncIfNotExist(REPORT_BASIC_PATH);
   mkdirSyncIfNotExist(report_path);
 
-  // console.log('feature: ' + feature);
+  console.log('\n');
+  console.log('\033[33mDevice: ' + device.name + '\033[39m');  
   if (feature === 'all') {
     setDeviceStatus(device, true, function() {
       cmd += ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
@@ -71,7 +72,7 @@ exports.runTest = function(req, res) {
   } else {
     setDeviceStatus(device, true, function() {
       cmd += feature + ' --format html --out ' + report_path + report_name + ' ADB_DEVICE_ARG=' + name + ' SCREENSHOT_PATH=' + report_path;
-      runCmd(cmd, options, function(result) {                
+      runCmd(cmd, options, function(result) {        
         if (emails.length > 0) {
           emails.map(function(email) {
             sendMailTo(email, name);
@@ -124,7 +125,7 @@ exports.getDeviceReports = function(req, res) {
   var device = req.body.device_name.replace(':', '.');
   var options = {cwd: REPORT_BASIC_PATH + device};
 
-  runCmd('ls -Ur *.html', options, function(reports) {   
+  runCmd('ls -Ur *.html', options, function(reports) {
     if (reports.length === 0) {
       res.jsonp('');
     } else {      
@@ -207,22 +208,6 @@ function setDeviceStatus(device, lock, callback) {
   });
 }
 
-function runCmd(cmd, options, callback) {
-  var child_process = require('child_process');
-  // console.log(options);
-  console.log('Run cmd:', cmd);
-  child_process.exec(cmd, options, function(err, stdout, stderr) {
-    if (err) {
-      console.log(err);
-    }
-
-    // console.log('stdout:', stdout);
-    // console.log('stderr:', stderr);
-
-    callback && callback(stdout);
-  });
-}
-
 function sendMailTo(email, name) {
   // Use Smtp Protocol to send Email
   var smtpTransport = mailer.createTransport("SMTP",{
@@ -248,5 +233,30 @@ function sendMailTo(email, name) {
     }
 
     smtpTransport.close();
+  });
+}
+
+function runCmd(cmd, options, callback) {
+  var child_process = require('child_process');
+  // console.log(options);
+  console.log('\033[96mRun cmd:\033[39m\n' + cmd);
+  console.log('\n');
+  child_process.exec(cmd, options, function(err, stdout, stderr) {
+    if (err) {
+      console.log('\033[96mErr:\033[39m\n' + err);
+      console.log('\n');
+    }
+
+    if (stdout) {
+      console.log('\033[96mStdout:\033[39m\n' + stdout);
+      console.log('\n');
+    }
+
+    if (stderr) {
+      console.log('\033[96mStderr:\033[39m\n' + stderr);
+      console.log('\n');
+    }
+
+    callback && callback();
   });
 }

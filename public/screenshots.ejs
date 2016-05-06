@@ -23,6 +23,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#"><%= device %></a>
+                <span id="ip" style="display:none;"><%= ip %></span>
             </div>
         </div>
     </div>
@@ -32,7 +33,7 @@
 <script src="../lib/jquery/dist/jquery.min.js"></script>
 <script>
 function deleteScreenshot(device, screenshot) {    
-    var url = 'http://localhost:8888/api/delete-screenshot';
+    var url = ip + '/api/delete-screenshot';
     var path = 'reports/' + device.replace(':', '.') + '/' + screenshot;
 
     $.post(url, { path: path }, function(screenshot) {
@@ -68,6 +69,7 @@ function renderScreenshots(device) {
     });  
 }
 var device = $('.navbar-brand').text();
+var ip = $('#ip').text();
 renderScreenshots(device);
 
 </script>

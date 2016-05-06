@@ -38,8 +38,9 @@ $npm start
 ```
 
 ###2. Build the web tool as a remote server for deployment
-First, replace the URL (http://localhost:8888) in the following files with your own IP
+First, replace the URL (http://localhost:8888) in config.js with your own IP
 ```
+The folloing files use ip
  - server/server.js
  - public/src/actions/index.js
  - public/src/containers/apk-selector.js

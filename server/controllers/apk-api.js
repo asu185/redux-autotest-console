@@ -43,14 +43,22 @@ exports.uploadApk = function(req, res) {
 function runCmd(cmd, options, callback) {
   var child_process = require('child_process');
   // console.log(options);
-  console.log('Run cmd:', cmd);
+  console.log('\033[96mRun cmd:\033[39m\n' + cmd);
+  console.log('\n');
   child_process.exec(cmd, options, function(err, stdout, stderr) {
     if (err) {
-      console.log(err);
+      // console.log(err);
     }
 
-    // console.log('stdout:', stdout);
-    // console.log('stderr:', stderr);
+    if (stdout) {
+      console.log('\033[96mStdout:\033[39m\n' + stdout);
+      console.log('\n');
+    }
+
+    if (stderr) {
+      console.log('\033[96mStderr:\033[39m\n' + stderr);
+      console.log('\n');
+    }
 
     callback && callback(stdout);
   });

@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const ROOT_URL = 'http://localhost:8888/api/';
+import { ip } from '../../../config';
+const ROOT_URL = `${ip}/api/`;
 
 // Client actions
 export const CHANGE_DEVICE_FEATURE = 'CHANGE_DEVICE_FEATURE';

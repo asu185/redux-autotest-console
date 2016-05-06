@@ -8,6 +8,7 @@ import {
   resignApkBefore  
 } from '../actions/index';
 import FileUploadProgress  from 'react-fileupload-progress';
+import { ip } from '../../../config';
 
 const toggleRotating = (isLoading) => {
   if (isLoading) {
@@ -43,9 +44,10 @@ const customFormRenderer = (onSubmit) => {
 
 const ApkSelector = (props) => {
   // console.log('Render apk-selector');
+  const url = `${ip}/api/upload-apk`;
   return (    
     <div id="ApkSelector">
-      <FileUploadProgress key='ex1' url='http://localhost:8888/api/upload-apk'
+      <FileUploadProgress key='ex1' url={url}
         onProgress={(e, request, progress) => {console.log('progress', e, request, progress);}}
         onLoad={ (e, request) => {console.log('load', e, request);}}
         onError={ (e, request) => {console.log('error', e, request);}}
